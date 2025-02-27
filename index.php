@@ -11,16 +11,16 @@
     <!-- Header -->
     <header>
         <div class="container">
-        <a href="home.php"> 
+        <a href="index.php"> 
             <img src="ColorStackUTAlogo.png" alt="ColorStack UTA Logo" class="logo-image">
 
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         </a>
         <nav class="navbar"> 
             <ul>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Sponsors</a></li>
-                <li><a href="#">Students</a></li>
+                <li><a href="about.php">About</a></li>
+                <li><a href="sponsors.php">Sponsors</a></li>
+                <li><a href="students.php">Students</a></li>
                 <li><a href="https://linktr.ee/colorstack_uta?fbclid=PAZXh0bgNhZW0CMTEAAaZ-huB0wubsKaEg9kR0V3_GwR79Zqmw8kz2f6BWWCVpCqx7j9ne0BhsfVI_aem_pxaAwxBnGLBBDUjBh71cog" class="join-now">Become a Member</a></li>
             </ul>
         </nav>
@@ -220,27 +220,27 @@
     <div class="sponsor-tier platinum">
         <h3><span class="medal">🥇</span> Platinum</h3>
         <div class="sponsor-logos">
-            <img src="jpmorgan.jpeg" alt="Bloomberg">
-            <img src="jpmorgan.jpeg" alt="BNY">
-            <img src="jpmorgan.jpeg" alt="NVIDIA">
+            <img src="placeholder.png" alt="Bloomberg">
+            <img src="placeholder.png" alt="BNY">
+            <img src="placeholder.png" alt="NVIDIA">
         </div>
     </div>
 
     <div class="sponsor-tier gold">
         <h3><span class="medal">🥈</span> Gold</h3>
         <div class="sponsor-logos">
-            <img src="jpmorgan.jpeg" alt="Capital One">
-            <img src="jpmorgan.jpeg" alt="Cisco">
-            <img src="jpmorgan.jpeg" alt="SEO">
-            <img src="jpmorgan.jpeg" alt="NextEra">
-            <img src="jpmorgan.jpeg" alt="Raymond James">
+            <img src="placeholder.png" alt="Capital One">
+            <img src="placeholder.png" alt="Cisco">
+            <img src="placeholder.png" alt="SEO">
+            <img src="placeholder.png" alt="NextEra">
+            <img src="placeholder.png" alt="Raymond James">
         </div>
     </div>
 
     <div class="sponsor-tier silver">
         <h3><span class="medal">🥉</span> Silver</h3>
         <div class="sponsor-logos">
-            <img src="jpmorgan.jpeg" alt="UKG">
+            <img src="placeholder.png" alt="UKG">
         </div>
     </div>
 

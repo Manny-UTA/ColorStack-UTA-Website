@@ -978,6 +978,360 @@ footer {
     background-color: #e68a33; 
 }
 
+/*ABOUT PAGE*/
+.about-page {
+    padding: 4rem 1rem;
+    background-color: #f6f2ec; 
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Mission Section */
+.mission-section {
+    padding: 4rem 0;
+    background-color: #0b0f24; 
+    color: #f6f2ec; 
+}
+
+.mission-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.mission-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem; 
+}
+
+.mission-text {
+    flex: 1;
+    max-width: 600px;
+}
+
+.mission-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.mission-text p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+}
+
+.mission-text .btn-primary {
+    background-color: #fd9739; 
+    color: #fff;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.mission-text .btn-primary:hover {
+    background-color: #e68a33; 
+}
+
+.mission-image {
+    flex: 1;
+    max-width: 500px;
+}
+
+.mission-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mission-content {
+        flex-direction: column; 
+    }
+
+    .mission-text {
+        text-align: center; 
+    }
+
+    .mission-image {
+        max-width: 100%; 
+    }
+}
+
+
+/* About ColorStack National Section */
+.national-section {
+    padding: 4rem 0;
+    background-color: #f6f2ec; 
+    color: #0b0f24; 
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.national-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f6f2ec; 
+    background-image: url('colorstackimage.jpeg'); 
+    background-size: cover;
+    background-position: center;
+    opacity: 0.1; 
+    z-index: 1;
+}
+
+.national-section .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.national-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #0b0f24; 
+    font-weight: bold;
+    text-align: center;
+    margin-left: 50%;
+}
+
+.national-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: 50%;
+    margin-right: auto;
+    line-height: 1.8; 
+    color: #333; 
+}
+
+.national-section .btn-secondary {
+    background-color: #058c9d; 
+    color: #fff;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    display: inline-block;
+    margin-left: 50%;
+}
+
+.national-section .btn-secondary:hover {
+    background-color: #047a8a; 
+    transform: translateY(-3px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .national-section h2 {
+        font-size: 2rem; 
+    }
+
+    .national-section p {
+        font-size: 1rem; 
+    }
+
+    .national-section .btn-secondary {
+        padding: 0.8rem 1.5rem; 
+    }
+}
+/* Meet the E-Board Section */
+.team-section {
+    padding: 4rem 0;
+    background-color: #0b0f24; 
+    color: #f6f2ec; 
+}
+
+.team-section h2 {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    gap: 2rem; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+    padding: 0 1rem; 
+}
+
+.team-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.team-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.team-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #0b0f24; 
+}
+
+.team-card p {
+    font-size: 1rem;
+    color: #333; 
+    margin-bottom: 1rem;
+}
+
+.team-card .linkedin-link {
+    color: #058c9d; 
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.team-card .linkedin-link:hover {
+    color: #047a8a; 
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+    }
+
+    .team-card img {
+        width: 80px; 
+        height: 80px;
+    }
+
+    .team-card h3 {
+        font-size: 1.25rem; 
+    }
+
+    .team-card p {
+        font-size: 0.9rem; 
+    }
+}
+
+/* Contact Us Section */
+.contact-section {
+    padding: 4rem 0;
+    background-color: #f6f2ec; 
+    color: #0b0f24; 
+    text-align: center;
+}
+
+.contact-section .container {
+    max-width: 800px; 
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+.contact-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #0b0f24; 
+}
+
+.contact-section p {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    color: #333; 
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; 
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; 
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%; 
+    transition: border-color 0.3s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #058c9d; 
+    outline: none;
+}
+
+.contact-form textarea {
+    resize: vertical; 
+    min-height: 150px; 
+}
+
+.contact-form .btn-primary {
+    background-color: #fd9739; 
+    color: #fff;
+    padding: 1rem 2rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    align-self: center; 
+}
+
+.contact-form .btn-primary:hover {
+    background-color: #e68a33; 
+    transform: translateY(-3px); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .contact-section h2 {
+        font-size: 2rem; 
+    }
+
+    .contact-section p {
+        font-size: 1rem; 
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        padding: 0.7rem; 
+    }
+
+    .contact-form .btn-primary {
+        padding: 0.8rem 1.5rem; 
+    }
+}
+
 /* Footer Bottom */
 .footer-bottom {
     text-align: center;

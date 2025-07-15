@@ -328,6 +328,13 @@
     margin: 0;
   }
 }
+@media (max-width: 767px) {
+  
+  .featured-event .event-card.large {
+    max-width: 300px;
+    margin: 1% 15% 1% 15%;
+  }
+}
 
 /*–––––––––––––––––––––––––––––––––––––––––––––––––  
   INSTAGRAM  

@@ -1,0 +1,134 @@
+/* General Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  /* Header Styles */
+  .header {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+  }
+  
+  .logo-image {
+    width: auto;
+    height: auto;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar li {
+    margin: 0;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .join-now {
+    background-color: #0070f3;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+  }
+  
+  /* What We Do Section */
+  .what-we-do {
+    background-color: #f4f4f4;
+    padding: 3rem 0;
+  }
+  
+  .what-we-do .text-content h2 {
+    font-size: 2rem;
+  }
+  
+  .what-we-do .text-content p {
+    font-size: 1.2rem;
+  }
+  
+  .btn-primary {
+    background-color: #0070f3;
+    color: white;
+    padding: 0.7rem 1.5rem;
+    text-decoration: none;
+  }
+  
+  /* Carousel Styles */
+  .carousel-container {
+    position: relative;
+  }
+  
+  .slides img {
+    display: none;
+  }
+  
+  .slides img.active {
+    display: block;
+  }
+  
+  .prev,
+  .next {
+    cursor: pointer;
+  }
+  
+  .dotsContainer .dot {
+    cursor: pointer;
+  }
+  
+  /* Features Section */
+  .features-section {
+    padding: 3rem 0;
+  }
+  
+  .features-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .feature {
+    text-align: center;
+  }
+  
+  .circle-background {
+    width: 100px;
+    height: 100px;
+  }
+  
+  /* Upcoming Events */
+  .upcoming-events {
+    background-color: #f9f9f9;
+  }
+  
+  .featured-event .event-card.large {
+  }
+  
+  .other-events .event-card.small {
+  }
+  
+  /* Instagram Section */
+  .instagram-section .card-container {
+  }
+  
+  /* CTA Section */
+  .cta-section {
+  }
+  
+  /* Sponsors Section */
+  .sponsors-section .sponsor-tier h3 span.medal {
+  }
+  
+  /* FAQ Section */
+  .faq-section .accordion-container ul li input[type="radio"] + label span.arrow::after {
+  }
+  
+  /* Footer Styles */
+  .footer-container {
+  }
+  

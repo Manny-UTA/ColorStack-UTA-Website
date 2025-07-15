@@ -1,0 +1,277 @@
+/* General Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+  
+  /* Header Styles */
+  .header {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+  }
+  
+  .logo-image {
+    width: auto;
+    height: auto;
+  }
+  
+  .navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+  }
+  
+  .navbar li {
+    margin: 0;
+  }
+  
+  .navbar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+  }
+  
+  .join-now {
+    background-color: #0070f3;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+  }
+  
+/* sponsors.module.css */
+
+.sponsorsSection {
+  padding: 3rem 1rem;
+  background-color: #f6f2ec;
+  text-align: center;
+}
+
+.sponsorsHeading {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #0b0f24;
+}
+
+.sponsorTier {
+  margin-bottom: 2rem;
+}
+
+.sponsorTier h3 {
+  font-size: 1.8rem;
+  color: #fd9739;
+  margin-bottom: 1rem;
+}
+
+.sponsorLogos {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.sponsorLogos img {
+  width: 150px;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.sponsorLogos img:hover {
+  transform: scale(1.05);
+}
+
+.sponsorCta {
+  margin-top: -2rem;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, #0b0f24, #1a1d3d);
+  color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.sponsorCtaTitle {
+  font-size: 3rem;       
+  line-height: 1.2;      
+  font-weight: 700;      
+  margin-bottom: 1rem;   
+}
+
+@media (max-width: 640px) {
+  .sponsorCtaTitle {
+    font-size: 2rem;
+  }
+}
+
+.ctaContent {
+  display: flex;
+  gap: 2rem;               /* space between them */
+  align-items: flex-start; /* align at the top */
+}
+
+/* Make each side take up equal space */
+.ctaBenefits,
+.ctaAction {
+  flex: 1;
+}
+
+.ctaAction {
+  flex: 1;                        /* keep your two‐column layout */
+  background-color: #fff;         /* white card */
+  color: #333;                    /* dark text */
+  padding: 1.0rem;                /* inner spacing */
+  border-radius: 8px;             /* rounded corners */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* soft shadow */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+/* And make sure your button stands out on white */
+.ctaAction .ctaButton {
+  margin-top: .10%;
+  background-color: #fd9739;
+  color: #fff;
+}
+.ctaAction .ctaButton:hover {
+  background-color: #e67c20;
+}
+
+
+.ctaBenefitsList {
+  list-style-type: disc;  
+  margin: 0;                
+  padding: 0;               
+}
+
+.ctaBenefits ul {
+  list-style-position: inside;
+  margin: 0;
+  padding-left: 0;
+  padding-left: 1em;  
+}
+
+.ctaBenefits ul li {
+  text-indent: 0;
+  margin-bottom: 0.5em;
+}
+
+.ctaButton {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #fd9739;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+.ctaButton:hover {
+  background-color: #e67c20;
+}
+
+@media (max-width: 768px) {
+  .ctaContent {
+    flex-direction: column;
+  }
+}
+
+.sponsorCta h3 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #fd9739;
+}
+
+.sponsorCta p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  line-height: 1.8;
+}
+
+.ctaButton {
+  display: inline-block;
+  background-color: #fd9739;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  padding: 0.9rem 2rem;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.ctaButton:hover {
+  background-color: #fff;
+  color: #fd9739;
+  border: 2px solid #fd9739;
+  transform: scale(1.05);
+}
+
+  /* Workshops */
+  .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* — Sponsored + Workshop Section — */
+.eventsSection {
+  background-color: #fff;
+  padding: 3rem 0;
+}
+
+.sectionSubtitle {
+  font-size: 2rem;
+  color: #0b0f24;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+/* Grid layout for both Sponsored Events and Workshops */
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Card styling */
+.eventCard {
+  background-color: #f6f2ec;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+}
+.eventTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #0b0f24;
+  margin-bottom: 0.75rem;
+}
+.eventDescription {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+  flex-grow: 1;
+}
+/* Event Images */
+.eventLogo {
+  display: block;      
+  margin: 0 auto;      
+  object-fit: contain;
+}
+.eventTitle {
+  text-align: center; 
+  margin-top: 5%;
+  margin-bottom: 2.5%; 
+}
+  /* Footer Styles */
+  .footer-container {
+  }
+  

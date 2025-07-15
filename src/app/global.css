@@ -1,0 +1,10 @@
+/* src/app/globals.css */
+
+:root {
+  --dark-bg:   #0b0f24;
+  --dark-alt:  #1a1d3d;
+  --light-bg:  #f6f2ec;
+  --primary:   #fd9739;
+  --text-light:#fff;
+  --text-dark: #333;
+}

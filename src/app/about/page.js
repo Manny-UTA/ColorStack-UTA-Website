@@ -1,6 +1,8 @@
 // src/app/about/page.js
 import Image from 'next/image'
 import { FaLinkedin } from 'react-icons/fa'
+import styles from './page.module.css';
+
 
 export default function AboutPage() {
   // Executive Board members

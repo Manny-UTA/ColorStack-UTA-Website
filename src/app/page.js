@@ -26,7 +26,14 @@ function WhatWeDo() {
       variants={fadeUp}
       transition={{ duration: 0.6, ease: 'easeOut' }}
     >
-      <div className={styles.container}>
+      <div
+         className={`
+           ${styles.container}
+           flex flex-col-reverse    
+           md:flex-row              
+           items-center gap-8
+         `}
+       >
         <div className={styles['text-content']}>
           <h2>What We Do</h2>
           <p>
@@ -107,7 +114,9 @@ function UpcomingEvents() {
     >
       <h2 className={styles['section-title']}>Upcoming Events</h2>
       <div className={styles['events-container']}>
-        <div className={styles['featured-event']}>
+
+        <div className={`${styles['featured-event']} hidden md:block`}>
+
           <div className={`${styles['event-card']} ${styles.large}`}>
             <div className={styles['event-date']}>
               <span className={styles.month}>MONTH</span>

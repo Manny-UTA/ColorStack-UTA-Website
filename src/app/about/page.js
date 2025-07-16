@@ -29,7 +29,7 @@ export default function AboutPage() {
   return (
     <main className="bg-[#0b0f24] text-white">
       {/* Hero / Committed Section */}
-      <section className="max-w-7xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center gap-8">
+        <section className="max-w-7xl mx-auto px-6 py-12 flex flex-col-reverse md:flex-row items-center gap-8">
         <div className="md:w-1/2 space-y-6">
           <h1 className="text-4xl font-bold">ColorStack UTA is a team committed to…</h1>
           <p className="text-lg">

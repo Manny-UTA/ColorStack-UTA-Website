@@ -1,6 +1,7 @@
 'use client';
 import Link from 'next/link';
 import NextImage from 'next/image'
+import styles from './students.module.css';
 
 export default function StudentsPage() {
   return (

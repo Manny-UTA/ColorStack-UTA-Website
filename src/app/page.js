@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers, faGraduationCap, faSuitcase } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faTwitter, faLinkedin, faFacebook } from '@fortawesome/free-brands-svg-icons';
 import styles from './page.module.css';
-import './global.css';
+import './globals.css';
 import Carousel from '../components/Carousel.js';
 import { motion } from 'framer-motion';
 

@@ -4,63 +4,135 @@
 .main {
 background-color: #0b0f24;
 color: #ffffff;
+min-height: 100vh;
+padding-bottom: 2rem;
 }
 
 /* Hero / Committed Section \*/
 .hero {
-max-width: 80rem;
-margin: 0 auto;
-padding: 3rem 1.5rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 2rem;
 }
-.heroContainer {
-display: flex;
-flex-direction: column-reverse;
-align-items: center;
-gap: 2rem;
+
+.heroContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
 }
+
 .heroImageWrapper {
   position: relative;
-  width: 100%;
-  max-width: 400px;   /* or whatever max you want */
-  height: 300px;      /* fixed aspect ratio */
-  margin: 0 auto;
+  flex: 1;                
+  min-width: 600px;       
+  max-width: 400px;       
+  aspect-ratio: 4 / 3;    
   overflow: hidden;
-  border-radius: 1rem; /* optional rounding */
+  border-radius: 1rem;
 }
 
 .heroImage {
   object-fit: cover;
 }
+
 @media (min-width: 768px) {
-.heroContainer {
-flex-direction: row;
-}
-}
-.heroText {
-width: 100%;
-}
-@media (min-width: 768px) {
-.heroText {
-width: 50%;
-}
-}
-.textBlock > \* + \* {
-margin-top: 1.5rem;
+  .hero {
+    flex-direction: row;
+  }
 }
 
-.btn {
-display: inline-block;
-background-color: #fd9739;
-color: #ffffff;
-font-weight: 600;
-padding: 0.75rem 1.5rem;
-border-radius: 9999px;
-text-decoration: none;
-transition: background-color 0.3s;
+@media (max-width: 767px) {
+  .heroImageWrapper {
+    min-width: auto;
+    width: 90%;
+    max-width: 90%;
+    aspect-ratio: 4 / 3;
+    margin: 0 auto;
+    border-radius: 30px;
+  }
 }
-.btn\:hover {
-background-color: #e67c20;
+
+/* Hero Title */
+.heroTitle {
+  font-size: 2.5rem;           
+  font-weight: 800;            
+  line-height: 1.2;            
+  margin-bottom: 1rem;         
+  text-align: center;          
+  color: #ffffff;              
 }
+
+/* Hero Text */
+.heroText {
+  font-size: 1.125rem;         
+  line-height: 1.6;            
+  max-width: 40rem;            
+  margin: 0 auto 1.5rem;       
+  text-align: center;          
+  color: #e0e0e0;              
+}
+
+/* On desktop, left‑align and bump sizes */
+@media (min-width: 768px) {
+  .heroTitle {
+    font-size: 3.5rem;
+    text-align: left;
+  }
+  .heroText {
+    margin: 0 0 2rem;
+    text-align: left;
+  }
+}
+
+.textBlock > * + * {
+  margin-top: 1.5rem;
+}
+
+/* hero button styling */
+.heroCta {
+  display: inline-block;
+  align-self: flex-start;
+  background-color: #fd9739;       
+  color: #ffffff;                  
+  font-weight: 600;                
+  padding: 1.35rem 2.0rem;         
+  border-radius: 9999px;           
+  text-decoration: none;           
+  transition: background-color 0.3s, transform 0.15s;
+  margin-top: 1.5rem;              
+}
+
+.heroCta:hover,
+.heroCta:focus {
+  background-color: #e67c20;       
+  transform: translateY(-2px);     
+}
+
+@media (min-width: 768px) {
+  .heroCta {
+    margin-top: 1.5rem;
+  }
+}
+
+/*mobile*/
+@media (max-width: 767px) {
+  .heroCta {
+    /* either: */
+    align-self: center;      
+    /* or */
+    margin: 1.5rem auto 0;    
+  }
+}
+
+
 
 /* National Info Section \*/
 .national {
@@ -80,9 +152,33 @@ margin-bottom: 1rem;
 font-size: 1.125rem;
 color: #d1d5db;
 margin-bottom: 1.5rem;
+text-align: center;
 }
 .centerText {
 text-align: center;
+}
+
+.nationalAction {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+/* style the anchor like a pill button */
+.nationalCta {
+  display: inline-block;
+  background-color: #fd9739;      
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;        
+  border-radius: 9999px;          
+  text-decoration: none;
+  transition: background-color 0.3s, transform 0.15s;
+}
+
+.nationalCta:hover,
+.nationalCta:focus {
+  background-color: #e67c20;      
+  transform: translateY(-2px);     
 }
 
 /* Grid utilities \*/
@@ -105,6 +201,12 @@ grid-template-columns: repeat(3, 1fr);
 .grid {
 grid-template-columns: repeat(4, 1fr);
 }
+
+/* Officer & Contact Section */
+.board {
+  margin-bottom: 4rem;  /* ← add this */
+}
+
 }
 
 /* Card */
@@ -145,11 +247,12 @@ color: #e67c20;
  /* Contact Form */
 .contact {
 max-width: 80rem;
-margin: 0 auto 4rem;
-padding: 3rem 1.5rem;
+margin: 4rem auto 2rem;
+padding: 3rem 1.5rem 3rem 1.5rem;
 background-color: #1a1d3d;
 border-radius: 0.75rem;
 }
+
 .contactTitle {
 font-size: 1.875rem;
 font-weight: 600;
@@ -161,11 +264,7 @@ display: grid;
 gap: 1.5rem;
 grid-template-columns: 1fr;
 }
-@media (min-width: 768px) {
-.contactForm {
-grid-template-columns: repeat(2, 1fr);
-}
-}
+
 .contactForm input,
 .contactForm textarea {
 padding: 0.75rem;

@@ -24,6 +24,7 @@ export default function AboutPage() {
       {/* Hero / Committed Section */}
       <section className={styles.hero}>
         <div className={styles.heroContent}>
+          <div className={styles.textBlock}>
           <h1 className={styles.heroTitle}>
             ColorStack UTA is a team committed to…
           </h1>
@@ -33,11 +34,12 @@ export default function AboutPage() {
             kind to deliver community building, academic support, and career
             development opportunities.
           </p>
+          </div>
           <a
             href="https://linktr.ee/colorstack_uta"
             className={styles.heroCta}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer" 
           >
             View Link Tree
           </a>

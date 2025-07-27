@@ -55,9 +55,20 @@
 
 .social-icons {
   display: flex;
-  gap: 1rem;  /* adjust as needed */
+  gap: 1rem;  
   align-items: center;
+  color: #fff;
 }
+
+.social-icons a {
+  margin-right: 1rem;
+  color: inherit;      
+}
+
+.social-icons a:hover {
+  color: #ddd;         
+}
+
 
 .footer-cta {
     display: inline-block;

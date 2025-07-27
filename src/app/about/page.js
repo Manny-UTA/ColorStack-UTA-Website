@@ -14,8 +14,8 @@ export default function AboutPage() {
   const officers = [
     { id: 'genesis-tapia',    name: 'Genesis Tapia',     role: 'Women of ColorStack Director', img: '/genesistapia.webp',  linkedin: 'https://www.linkedin.com/in/genesistapiarodriguez/' },
     { id: 'jocelyn-vazquez',  name: 'Jocelyn Vazquez',    role: 'Socials & Graphics Director', img: '/jocelynvazquez.webp', linkedin: 'https://www.linkedin.com/in/jocelyn-vazquez/' },
-    { id: 'tbd3-recruitment', name: 'TBD',               role: 'Recruitment Director',         img: '/PhotoPlaceholder.webp', linkedin: '#' },
-    { id: 'tbd3-corporate',   name: 'TBD',               role: 'Corporate Outreach Director',  img: '/PhotoPlaceholder.webp', linkedin: '#' },
+    { id: 'mofoluwatele-olagbami', name: 'Mofoluwatele Olagbami',     role: 'Recruitment Director',   img: '/mo.jpeg', linkedin: 'https://www.linkedin.com/in/mofoluwatele-olagbami/' },
+    { id: 'aleida-ramirez',   name: 'Aleida Ramirez',     role: 'Corporate Outreach Director',  img: '/aleida.jpeg', linkedin: 'https://www.linkedin.com/in/aleida-ramirez-075bb7226/' },
   ]
 
   return (
@@ -98,7 +98,7 @@ export default function AboutPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <FaLinkedin size={24} />
+                <FaLinkedin size={24} color="#fff"/>
               </a>
             </div>
           ))}
@@ -127,7 +127,7 @@ export default function AboutPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaLinkedin size={24} />
+                  <FaLinkedin size={24} color="#fff"/>
                 </a>
               )}
             </div>

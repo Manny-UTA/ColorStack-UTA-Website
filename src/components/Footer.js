@@ -56,10 +56,10 @@ export default function Footer() {
                     <h3>Follow Us</h3>
                     <div className={styles['social-icons']}>
                         <a href="https://www.instagram.com/colorstackuta" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-                            <FontAwesomeIcon icon={faInstagram} />
+                            <FontAwesomeIcon icon={faInstagram} color="#fff"/>
                         </a>
                         <a href="https://www.linkedin.com/in/colorstack-uta-118929326/" aria-label="LinkedIn" target="_blank" rel="noopener noreferrer">
-                            <FontAwesomeIcon icon={faLinkedin} />
+                            <FontAwesomeIcon icon={faLinkedin} color="#fff"/>
                         </a>
                         {/*<a href="#" aria-label="Twitter">
                             <FontAwesomeIcon icon={faTwitter} />

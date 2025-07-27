@@ -1,65 +1,108 @@
 /* students.module.css */
 
 /* ──────────────────────────────────────────────────────────────────────────────
-   1. Hero / Call-to-Action
+   Base styles
+   ────────────────────────────────────────────────────────────────────────────── */
+.main {
+  background-color: #0b0f24;
+  color: #ffffff;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   1. Hero / Call‑to‑Action
    ────────────────────────────────────────────────────────────────────────────── */
 .heroSection {
-  background-color: #0b0f24;
-  color: #f6f2ec;
-  padding: 4rem 1rem;
+  max-width: 1120px;      
+  margin: 0 auto;
+  padding: 4rem 1rem;    
   text-align: center;
 }
 .heroTitle {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  font-size: 2.5rem;      
+  font-weight: 700;       
+  margin-bottom: 1rem;    
   line-height: 1.2;
 }
+@media (min-width: 768px) {
+  .heroTitle {
+    font-size: 3rem;      
+  }
+}
 .heroDesc {
-  font-size: 1.125rem;
-  margin-bottom: 2rem;
+  font-size: 1.125rem;    
+  margin: 0 auto 1.5rem;  
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  line-height: 1.6;
 }
 .ctaButton {
   display: inline-block;
-  background-color: #fd9739;
-  color: #fff;
-  font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
+  background-color: #fd9739;   
+  color: #ffffff;
+  font-weight: 600;            
+  padding: 0.75rem 1.5rem;     
+  border-radius: 9999px;      
   text-decoration: none;
   transition: background-color 0.3s;
 }
 .ctaButton:hover {
-  background-color: #e67c20;
+  background-color: #e67c20;   
 }
 
 /* ──────────────────────────────────────────────────────────────────────────────
    2. “Why Become an Officer?” Benefits Grid
    ────────────────────────────────────────────────────────────────────────────── */
 .benefitsSection {
-  padding: 3rem 1rem;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 3rem 1rem;     
+}
+.benefitsSection h2 {
+  font-size: 1.875rem;    
+  font-weight: 600;       
+  text-align: center;
+  margin-bottom: 2rem;    
 }
 .benefitsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 1.5rem;
-  max-width: 1000px;
-  margin: 0 auto;
+  gap: 1.5rem;            
+  grid-template-columns: repeat(1,1fr);
 }
+@media (min-width: 768px) {
+  .benefitsGrid {
+    grid-template-columns: repeat(3,1fr);  
+  }
+}
+.notableHeading {
+  font-size: 2rem;
+  margin-top: 3rem;
+  margin-bottom: 5rem;
+  text-align: center;
+}
+
 .benefitCard {
-  background: #ffffff;
-  color: #333333;
-  border-radius: 12px;
-  padding: 2rem 1.5rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  color: #000000;
+  padding: 2rem;          
+  border-radius: 1rem;    
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border-left: 4px solid #6366f1; 
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  margin-bottom: 5rem;
+}
+.benefitCard:nth-child(2) {
+  border-color: #10b981;  
+}
+.benefitCard:nth-child(3) {
+  border-color: #ec4899;  
+}
+.benefitCard:hover {
+  transform: scale(1.05);           
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15); 
 }
 .benefitCard h3 {
-  font-size: 1.25rem;
-  margin-bottom: 0.75rem;
-  color: #0b0f24;
+  font-size: 1.125rem;    /* text-lg */
+  font-weight: 700;       /* font-bold */
+  margin-bottom: 0.75rem; /* mb-2 */
 }
 .benefitCard p {
   font-size: 0.95rem;
@@ -67,39 +110,86 @@
 }
 
 /* ──────────────────────────────────────────────────────────────────────────────
-   3. Officer Application Form
+   3. Notable Companies Logo Grid
+   ────────────────────────────────────────────────────────────────────────────── */
+.logoGrid {
+  display: grid;
+  gap: 2rem;            
+  justify-items: center;
+  align-items: center;
+  margin-top: 3rem;      
+  margin-bottom: 1.5rem; 
+  grid-template-columns: repeat(2,1fr);
+}
+@media (min-width: 640px) {
+  .logoGrid {
+    grid-template-columns: repeat(3,1fr); 
+  }
+}
+@media (min-width: 768px) {
+  .logoGrid {
+    grid-template-columns: repeat(5,1fr); 
+  }
+}
+.logoItem {
+  background-color: #ffffff;
+  border-radius: 50%;    
+  padding: 1.5rem;       
+  width: 10rem;          
+  height: 10rem;         
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s; 
+}
+.logoItem:hover {
+  transform: scale(1.05);
+}
+.logoItem :global(img) {
+  object-fit: contain;  
+  width: 100%;
+  height: auto;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────────
+   4. Officer Application Section
    ────────────────────────────────────────────────────────────────────────────── */
 .applicationSection {
-  background-color: #1a1d3d;
-  color: #f6f2ec;
-  padding: 3rem 1rem;
-  border-radius: 12px;
   max-width: 800px;
   margin: 3rem auto;
+  padding: 3rem 1rem;    
+  background-color: #1a1d3d;
+  color: #ffffff;
+  border-radius: 1rem;   
 }
 .applicationSection h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
+  font-size: 2rem;        
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 1.5rem;  
 }
 .applicationForm {
   display: grid;
   gap: 1rem;
+  max-width: 32rem;       
+  margin: 0 auto;         
 }
 .applicationForm input,
 .applicationForm textarea {
   width: 100%;
-  padding: 0.75rem;
-  border-radius: 8px;
+  padding: 0.75rem;       
+  border-radius: 0.5rem;  
   border: none;
   font-size: 1rem;
+  box-sizing: border-box;
 }
 .applicationSubmit {
   background-color: #fd9739;
-  color: #fff;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 9999px;
+  color: #ffffff;
   font-weight: 600;
+  padding: 0.75rem 1.5rem; 
+  border-radius: 9999px;   
+  border: none;
   cursor: pointer;
   transition: background-color 0.3s;
 }
@@ -107,29 +197,55 @@
   background-color: #e67c20;
 }
 
+/* Mobile tweaks below 640px */
+@media (max-width: 768px) {
+  .applicationSection {
+    /* let it fill the screen */
+    padding: 2rem 1rem;
+    margin: 2rem auto;
+  }
+
+  .applicationForm {
+    max-width: 100%;    
+    gap: 0.75rem;
+  }
+
+  .applicationForm input,
+  .applicationForm textarea {
+    width: 100%;       
+  }
+
+  .applicationSubmit {
+    width: 100%;        
+    margin-top: 1rem;
+  }
+}
+
 /* ──────────────────────────────────────────────────────────────────────────────
-   4. Calendar Embed & Subscribe
+   5. Calendar Embed & Subscribe
    ────────────────────────────────────────────────────────────────────────────── */
 .calendarSection {
+  max-width: 1120px;
+  margin: 0 auto;
   padding: 3rem 1rem;
   text-align: center;
 }
 .calendarEmbed {
   width: 100%;
-  height: 400px;
+  height: 24rem;         
   border: none;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;   
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .subscribeCalendarBtn {
   display: inline-block;
   margin-top: 1rem;
   background-color: #fd9739;
-  color: #fff;
+  color: #ffffff;
+  font-weight: 600;
   padding: 0.75rem 1.5rem;
   border-radius: 9999px;
   text-decoration: none;
-  font-weight: 600;
   transition: background-color 0.3s;
 }
 .subscribeCalendarBtn:hover {
@@ -137,11 +253,11 @@
 }
 
 /* ──────────────────────────────────────────────────────────────────────────────
-   Responsive Adjustments
+   Responsive Tweaks
    ────────────────────────────────────────────────────────────────────────────── */
 @media (max-width: 768px) {
   .benefitsGrid,
-  .resourcesGrid {
-    grid-template-columns: 1fr;
+  .logoGrid {
+    grid-template-columns: 1fr !important;
   }
 }

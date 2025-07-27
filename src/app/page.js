@@ -325,22 +325,22 @@ function SponsorsSection() {
       </div>
       */}
 
-      <div className={`${styles['sponsor-cta']} text-center space-y-6`}>
-        <h3 className="text-4xl md:text-5xl font-bold">
-          Empower the Next Generation of CS Leaders
-        </h3>
-        <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-          Your sponsorship helps create opportunities for Black and Latinx CS students to excel academically,
-          socially, and professionally. Join an exclusive network of visionary companies driving meaningful change
-          in tech.
-        </p>
-        <a
-          href="#"
-          className={`${styles['cta-button']} text-lg md:text-xl px-8 py-4`}
-        >
-          Learn About Sponsorship Tiers
-        </a>
-      </div>
+     <div className={styles.sponsorCta}>
+  <h3 className={styles.sponsorHeading}>
+    Empower the Next Generation of CS Leaders
+  </h3>
+  <p className={styles.sponsorText}>
+    Your sponsorship helps create opportunities for Black and Latinx CS students to excel academically,
+    socially, and professionally. Join an exclusive network of visionary companies driving meaningful change
+    in tech.
+  </p>
+  <a
+    href="#"
+    className={styles.sponsorButton}
+  >
+    Learn About Sponsorship Tiers
+  </a>
+</div>
     </motion.section>
   );
 }

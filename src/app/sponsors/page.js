@@ -79,8 +79,8 @@ export default function SponsorsPage() {
         <Image
           src="/utahackathon.webp"
           alt="Hackathon"
-          width={390}
-          height={120}
+          width={500}
+          height={200}
           className={styles.eventLogo}
         />
         <h3 className={styles.eventTitle}>ColorStack UTA Hackathon</h3>
@@ -94,8 +94,8 @@ export default function SponsorsPage() {
         <Image
           src="/colorstacksummit.webp"
           alt="Summit Logo"
-          width={250}
-          height={120}
+          width={500}
+          height={200}
           className={styles.eventLogo}
         />
         <h3 className={styles.eventTitle}>ColorStack UTA Summit</h3>
@@ -109,8 +109,8 @@ export default function SponsorsPage() {
         <Image
           src="/afrotechuta.webp"
           alt="Diversity Panel"
-          width={390}
-          height={120}
+          width={500}
+          height={200}
           className={styles.eventLogo}
         />
         <h3 className={styles.eventTitle}>Diversity in Tech Panel</h3>
@@ -128,8 +128,8 @@ export default function SponsorsPage() {
               <Image
               src="/jpmorganworkshop.webp"
               alt="JPMorgan&Chase"
-              width={390}
-              height={120}
+              width={700}
+              height={300}
               className={styles.eventLogo}
               />
               <h3 className={styles.eventTitle}>JPMorgan&Chase "Day in the Life of a JPMorgan Software Engineer - March 2025</h3>
@@ -141,8 +141,8 @@ export default function SponsorsPage() {
               <Image
               src="/fidelityworkshop.webp"
               alt="Bloomberg Logo"
-              width={390}
-              height={120}
+              width={700}
+              height={300}
               className={styles.eventLogo}
               />
               <h3 className={styles.eventTitle}>Fidelity Internship Insights Session - November 2024</h3>

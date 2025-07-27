@@ -106,23 +106,22 @@
 
 .ctaContent {
   display: flex;
-  gap: 2rem;               /* space between them */
-  align-items: flex-start; /* align at the top */
+  gap: 2rem;              
+  align-items: flex-start; 
 }
 
-/* Make each side take up equal space */
 .ctaBenefits,
 .ctaAction {
   flex: 1;
 }
 
 .ctaAction {
-  flex: 1;                        /* keep your two‐column layout */
-  background-color: #fff;         /* white card */
-  color: #333;                    /* dark text */
-  padding: 1.0rem;                /* inner spacing */
-  border-radius: 8px;             /* rounded corners */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* soft shadow */
+  flex: 1;                        
+  background-color: #fff;         
+  color: #333;                    
+  padding: 1.0rem;                
+  border-radius: 8px;             
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1); 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -130,7 +129,6 @@
   padding-bottom: 2%;
 }
 
-/* And make sure your button stands out on white */
 .ctaAction .ctaButton {
   margin-top: .10%;
   background-color: #fd9739;
@@ -231,7 +229,6 @@
   margin-bottom: 1.5rem;
 }
 
-/* Grid layout for both Sponsored Events and Workshops */
 .eventsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -247,6 +244,8 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 .eventTitle {
   font-size: 1.25rem;
@@ -265,13 +264,11 @@
   display: block;      
   margin: 0 auto;      
   object-fit: contain;
+  max-width: 300px; 
 }
 .eventTitle {
   text-align: center; 
   margin-top: 5%;
   margin-bottom: 2.5%; 
 }
-  /* Footer Styles */
-  .footer-container {
-  }
   

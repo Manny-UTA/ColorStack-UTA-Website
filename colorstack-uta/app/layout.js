@@ -7,8 +7,7 @@ export const metadata = {
   metadataBase: new URL("https://colorstackuta.dev"),
   openGraph: {
     title: "ColorStack UTA",
-    description:
-      "Empowering the next generation of Black and Latinx technical leaders at UT Arlington.",
+    description: "Empowering the next generation of Black and Latinx technical leaders at UT Arlington.",
     url: "https://colorstackuta.dev",
     siteName: "ColorStack UTA",
     type: "website",
@@ -18,7 +17,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="bg-[#0A1240] text-white antialiased">{children}</body>
     </html>
   );
 }

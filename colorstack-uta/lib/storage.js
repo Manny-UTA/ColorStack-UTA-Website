@@ -1,41 +1,50 @@
 // ---------------------------------------------------------------------------
-// TEMPORARY local storage shim.
+// Shared storage client. Same get/set/delete shape as before, but now every
+// visitor and officer reads and writes the same data — calls go through
+// /api/storage, which is the only place that touches the actual database
+// (Vercel KV). No credentials live in this file or anywhere in the browser.
 //
-// This mirrors the tiny key/value API used throughout the site so it can
-// run entirely client-side for now (no backend required to deploy and test).
-// It is NOT shared across visitors — each person's browser has its own copy,
-// and it is NOT secure or durable (clearing browser data wipes it).
-//
-// Before this goes live for real members:
-//   - Replace this file's internals with calls to a real database
-//     (Supabase or MongoDB Atlas both have free tiers, both in the
-//     GitHub Student Developer Pack).
-//   - Replace the officer passcode in ColorStackUTA.jsx with real
-//     authentication (Clerk, also free in the Student Pack).
-//
-// Every place that calls `storage.get/set/delete` in ColorStackUTA.jsx
-// can stay exactly as written — only this file needs to change.
+// Setup required once, in the Vercel dashboard:
+//   1. Project → Storage tab → Create Database → KV
+//   2. Connect it to this project (env vars get added automatically)
+//   3. Redeploy
+// Until that's done, these calls will fail — every function below throws
+// a clear error in that case rather than failing silently.
 // ---------------------------------------------------------------------------
 
 export const storage = {
   async get(key) {
-    if (typeof window === "undefined") return null;
-    const raw = window.localStorage.getItem(key);
-    if (raw === null) {
+    const res = await fetch(`/api/storage?key=${encodeURIComponent(key)}`, {
+      cache: "no-store",
+    });
+    if (res.status === 404) {
       throw new Error(`Key "${key}" not found`);
     }
-    return { key, value: raw };
+    if (!res.ok) {
+      throw new Error(`Storage read failed for "${key}"`);
+    }
+    return res.json(); // { key, value }
   },
 
   async set(key, value) {
-    if (typeof window === "undefined") return null;
-    window.localStorage.setItem(key, value);
-    return { key, value };
+    const res = await fetch("/api/storage", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key, value }),
+    });
+    if (!res.ok) {
+      throw new Error(`Storage write failed for "${key}"`);
+    }
+    return res.json(); // { key, value }
   },
 
   async delete(key) {
-    if (typeof window === "undefined") return null;
-    window.localStorage.removeItem(key);
-    return { key, deleted: true };
+    const res = await fetch(`/api/storage?key=${encodeURIComponent(key)}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error(`Storage delete failed for "${key}"`);
+    }
+    return res.json(); // { key, deleted }
   },
 };

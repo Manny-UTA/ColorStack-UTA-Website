@@ -1,9 +1,20 @@
 # ColorStack UTA — Website
 
-Next.js site for the ColorStack chapter at UT Arlington. Includes:
-- Landing page (hero, stats, events, mission, partners)
-- Member portal — look up dues status by email, see upcoming events
-- Officer admin portal — passcode-gated photo uploads for the hero image and event highlight tiles
+Next.js site for the ColorStack chapter at UT Arlington.
+
+Pages: Home (hero, stats, member dues portal, events, highlights, mission, partners), About (mission, e-board, officers, national org), Sponsors (pitch, benefits, sponsored events, partner workshops, contact form), Admin (officer photo uploads).
+
+## Set up the shared database (Upstash Redis via Vercel — free tier)
+
+Member dues, uploaded photos, and sponsor form submissions are shared across every visitor through a real database, not saved to individual browsers. One-time setup, no code changes needed:
+
+1. Open your project on vercel.com → **Storage** tab
+2. **Create Database** → choose **Upstash** → **Redis**
+3. Follow the prompts to create it (free tier is enough for this site)
+4. On the "Connect to Project" step, select this project — Vercel automatically adds the required environment variables for you
+5. Redeploy (Deployments tab → latest deployment → **Redeploy**) so the new environment variables take effect
+
+**Until this is done**, the site still loads, but the member portal lookup, photo uploads, and the sponsor contact form will show an error instead of saving anything — the API fails clearly rather than pretending to work.
 
 ## 1. Push this to GitHub
 
@@ -17,36 +28,32 @@ git remote add origin https://github.com/<your-username>/colorstack-uta.git
 git push -u origin main
 ```
 
-(Create the empty repo on GitHub first, then run the commands above.)
-
 ## 2. Deploy on Vercel
 
-1. Go to vercel.com → **Add New Project**
-2. Import the `colorstack-uta` GitHub repo
-3. Framework preset auto-detects as **Next.js** — leave defaults, click **Deploy**
-4. You'll get a live `.vercel.app` URL in about a minute
+1. vercel.com → **Add New Project** → import the repo
+2. Framework preset auto-detects as Next.js — leave defaults, click **Deploy**
+3. Then follow the database setup above and redeploy once more
 
-## 3. Connect your domain (colorstackuta.dev)
+## 3. Run it locally (optional)
 
-1. In the Vercel project → **Settings → Domains** → add `colorstackuta.dev`
-2. Vercel shows you DNS records to add
-3. Go to Name.com → your domain's DNS settings → add those exact records
-4. DNS can take anywhere from a few minutes to a few hours to propagate
-
-## 4. Run it locally first (optional but recommended)
+Local dev won't have the database connected unless you pull the env vars down:
 
 ```bash
+npm install -g vercel   # if you don't already have the CLI
+vercel link             # connect this folder to your Vercel project
+vercel env pull .env.local
 npm install
 npm run dev
 ```
 
-Open `http://localhost:3000` to see it before pushing anything live.
+## How the database is wired up
 
-## Before this handles real member data
+- `app/api/storage/route.js` — the only file that talks to the database (Upstash Redis). Reads its credentials from environment variables that Vercel injects automatically. The browser never sees these credentials.
+- `lib/storage.js` — the client-side helper every page calls (`storage.get/set/delete`). It calls that API route over HTTP; it has no direct database access itself.
 
-Two things in here are intentionally temporary, marked clearly in the code:
+Every key is stored under a `colorstackuta:` prefix (e.g. `colorstackuta:members`, `colorstackuta:siteImages`), so this Redis store can safely hold other data later without collisions.
 
-- **`lib/storage.js`** — currently saves to each visitor's own browser (`localStorage`), so members and officers on different devices don't see the same data. Swap this file's internals for a real database call (Supabase or MongoDB Atlas — both free-tier, both included in the GitHub Student Developer Pack) and every other file keeps working unchanged.
-- **Officer passcode** — `OFFICER_PASSCODE` in `components/ColorStackUTA.jsx` is a single shared code, not real login. Replace with Clerk (also free in the Student Pack) so each officer has their own account.
+## Still worth doing before this handles real member data
 
-Everything else — layout, copy, the portal UI, the upload flow — is ready as-is.
+- **Officer passcode** — `OFFICER_PASSCODE` in `lib/content.js` is a single shared code, not real login. Replace with Clerk (free in the GitHub Student Developer Pack) so each officer has their own account and actions are attributable.
+- **Connect `colorstackuta.dev`** — Vercel project → Settings → Domains.

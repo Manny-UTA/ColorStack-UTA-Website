@@ -1,17 +1,7 @@
 export const SEED_MEMBERS = [
-  { email: "manny@uta.edu", name: "Manuel Arellano Jr.", role: "Co-President", duesPaid: true, since: "Fall 2023", attendance: 14 },
-  { email: "jane.doe@uta.edu", name: "Jane Doe", role: "Member", duesPaid: true, since: "Spring 2025", attendance: 9 },
-  { email: "alex.rios@uta.edu", name: "Alex Rios", role: "Member", duesPaid: false, since: "Fall 2024", attendance: 3 },
-];
-
-// Placeholder alumni — replace with your chapter's real past board members.
-// (Not populated with real names by default so nobody gets misattributed
-// to a chapter they weren't part of.)
-export const YEARBOOK = [
-  { name: "Add a name", role: "President", term: "2022–2023", linkedin: "" },
-  { name: "Add a name", role: "Vice President", term: "2022–2023", linkedin: "" },
-  { name: "Add a name", role: "Treasurer", term: "2023–2024", linkedin: "" },
-  { name: "Add a name", role: "Corporate Outreach", term: "2023–2024", linkedin: "" },
+  { email: "manny@uta.edu", name: "Manuel Arellano Jr.", role: "Co-President", duesPaid: true, since: "Fall 2023" },
+  { email: "jane.doe@uta.edu", name: "Jane Doe", role: "Member", duesPaid: true, since: "Spring 2025" },
+  { email: "alex.rios@uta.edu", name: "Alex Rios", role: "Member", duesPaid: false, since: "Fall 2024" },
 ];
 
 export const SEED_EVENTS = [
@@ -24,16 +14,10 @@ export const SEED_EVENTS = [
 
 export const NAV_PAGES = [
   { href: "/about", label: "About" },
-  { href: "/board", label: "Board" },
-  { href: "/events", label: "Events" },
+  { href: "/#events", label: "Events" },
+  { href: "/#portal", label: "Portal" },
   { href: "/sponsors", label: "Sponsors" },
 ];
-
-export const INTERNSHIP_HUB = {
-  eyebrow: "The Internship Hub of UTA",
-  headline: "We bridge the gap from a non-target school.",
-  body: "UTA isn't a school recruiters show up to by default. ColorStack UTA exists to change that — direct pipelines, warm intros, and mock interviews that get our members in the room at companies that otherwise skip us.",
-};
 
 export const PARTNERS = ["Google", "Microsoft", "JPMorgan Chase & Co.", "Bloomberg", "Adobe", "Capital One", "Samsung", "Fidelity"];
 

@@ -9,7 +9,7 @@ import { PARTNERS, SPONSORED_EVENTS, PARTNER_WORKSHOPS, SPONSOR_BENEFITS } from 
 
 function SponsorForm() {
   const [form, setForm] = useState({ company: "", name: "", email: "", message: "" });
-  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [status, setStatus] = useState("idle");
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -100,7 +100,6 @@ export default function Sponsors() {
     <div className="min-h-screen">
       <Nav />
 
-      {/* ---------------- PITCH ---------------- */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 text-center">
         <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Partner With Us</p>
         <h1 className="text-3xl sm:text-5xl font-black uppercase leading-tight mb-6">Join our sponsor program.</h1>
@@ -109,7 +108,6 @@ export default function Sponsors() {
         </p>
       </section>
 
-      {/* ---------------- WHY PARTNER ---------------- */}
       <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
         <h2 className="text-xl sm:text-2xl font-black uppercase mb-6 text-center">Why partner with us?</h2>
         <div className="grid sm:grid-cols-2 gap-4">
@@ -122,7 +120,6 @@ export default function Sponsors() {
         </div>
       </section>
 
-      {/* ---------------- SPONSORED EVENTS ---------------- */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-white/10">
         <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">What You&apos;d Be Part Of</p>
         <h2 className="text-2xl sm:text-3xl font-black uppercase mb-8">Sponsored events.</h2>
@@ -136,7 +133,6 @@ export default function Sponsors() {
         </div>
       </section>
 
-      {/* ---------------- PARTNER-LED WORKSHOPS ---------------- */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-white/10">
         <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">Recent Partnerships</p>
         <h2 className="text-2xl sm:text-3xl font-black uppercase mb-8">Partner-led workshops.</h2>
@@ -154,7 +150,6 @@ export default function Sponsors() {
         </div>
       </section>
 
-      {/* ---------------- CURRENT PARTNERS ---------------- */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 py-14 border-t border-white/10">
         <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-6">Our Partners</p>
         <div className="flex flex-wrap gap-x-8 sm:gap-x-10 gap-y-4 text-base sm:text-lg font-bold text-slate-300">
@@ -167,7 +162,6 @@ export default function Sponsors() {
         </p>
       </section>
 
-      {/* ---------------- CONTACT FORM ---------------- */}
       <section id="sponsor-form" className="max-w-2xl mx-auto px-4 sm:px-6 py-16 border-t border-white/10 scroll-mt-24">
         <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3 text-center">Let&apos;s Work Together</p>
         <h2 className="text-2xl sm:text-3xl font-black uppercase mb-4 text-center">Get in touch.</h2>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Lock, Unlock, Upload, Trash2, ShieldCheck, Loader2 } from "lucide-react";
+import { Unlock, Upload, Trash2, ShieldCheck, Loader2 } from "lucide-react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PhotoBlock from "@/components/PhotoBlock";
@@ -110,13 +110,13 @@ export default function AdminPage() {
             </div>
             {passcodeError && <p className="text-red-400 text-xs mt-2">That passcode isn&apos;t right — check with your board for the current one.</p>}
             <p className="text-slate-600 text-[11px] mt-4">
-              Demo note: this is a shared passcode for prototyping only, and photos only save to this browser until this is wired to a real database. Swap this for real per-officer accounts (e.g. Clerk auth) before handling real member data.
+              Demo note: this is a shared passcode for prototyping only. Swap this for real per-officer accounts (e.g. Clerk auth) before handling real member data.
             </p>
           </form>
         ) : (
           <div>
             <div className="flex items-center gap-2 text-green-400 text-sm font-semibold mb-6">
-              <Unlock size={15} /> Admin unlocked.
+              <Unlock size={15} /> Admin unlocked — changes save to the shared database and are visible to everyone.
             </div>
             {uploadError && (
               <div className="mb-6 bg-red-500/10 border border-red-500/30 text-red-300 text-sm rounded-lg p-3 max-w-lg">{uploadError}</div>

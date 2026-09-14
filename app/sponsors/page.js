@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import Pinstripe from "@/components/Pinstripe";
 import { storage } from "@/lib/storage";
 import { PARTNERS, SPONSORED_EVENTS, PARTNER_WORKSHOPS, SPONSOR_BENEFITS } from "@/lib/content";
 
@@ -18,7 +19,7 @@ function SponsorForm() {
       let existing = [];
       try {
         const raw = await storage.get("sponsorLeads");
-        existing = raw.value;
+        existing = typeof raw.value === "string" ? JSON.parse(raw.value) : raw.value;
       } catch {
         existing = [];
       }
@@ -32,62 +33,36 @@ function SponsorForm() {
 
   if (status === "sent") {
     return (
-      <div className="bg-[#111C4E] border border-green-500/30 rounded-2xl p-8 text-center">
-        <CheckCircle2 className="text-green-400 mx-auto mb-3" size={28} />
-        <h3 className="font-bold text-lg mb-1">Thanks — we&apos;ll be in touch.</h3>
-        <p className="text-slate-400 text-sm">We&apos;ll follow up with a proposal tailored to your goals.</p>
+      <div className="bg-white border border-navy/15 rounded-sm p-8 text-center">
+        <CheckCircle2 className="text-green-700 mx-auto mb-3" size={26} />
+        <h3 className="font-serif font-bold text-lg mb-1 text-navy">Thanks — we'll be in touch.</h3>
+        <p className="text-[#6B6A64] text-sm">We'll follow up with a proposal tailored to your goals.</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-[#111C4E] border border-white/10 rounded-2xl p-6 sm:p-8 space-y-4">
+    <form onSubmit={handleSubmit} className="bg-white border border-navy/10 rounded-sm p-6 sm:p-8 space-y-4">
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label className="text-xs font-semibold text-slate-400 mb-1.5 block">Company</label>
-          <input
-            required
-            value={form.company}
-            onChange={(e) => setForm({ ...form, company: e.target.value })}
-            className="w-full bg-[#0A1240] border border-white/15 focus:border-orange-500 outline-none rounded-lg px-3.5 py-2.5 text-sm"
-          />
+          <label className="text-xs font-semibold text-navy/60 mb-1.5 block">Company</label>
+          <input required value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-sm" />
         </div>
         <div>
-          <label className="text-xs font-semibold text-slate-400 mb-1.5 block">Your name</label>
-          <input
-            required
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full bg-[#0A1240] border border-white/15 focus:border-orange-500 outline-none rounded-lg px-3.5 py-2.5 text-sm"
-          />
+          <label className="text-xs font-semibold text-navy/60 mb-1.5 block">Your name</label>
+          <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-sm" />
         </div>
       </div>
       <div>
-        <label className="text-xs font-semibold text-slate-400 mb-1.5 block">Email</label>
-        <input
-          type="email"
-          required
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
-          className="w-full bg-[#0A1240] border border-white/15 focus:border-orange-500 outline-none rounded-lg px-3.5 py-2.5 text-sm"
-        />
+        <label className="text-xs font-semibold text-navy/60 mb-1.5 block">Email</label>
+        <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-sm" />
       </div>
       <div>
-        <label className="text-xs font-semibold text-slate-400 mb-1.5 block">What are you looking to do?</label>
-        <textarea
-          rows={4}
-          value={form.message}
-          onChange={(e) => setForm({ ...form, message: e.target.value })}
-          placeholder="Workshop, hackathon sponsorship, recruiting event, etc."
-          className="w-full bg-[#0A1240] border border-white/15 focus:border-orange-500 outline-none rounded-lg px-3.5 py-2.5 text-sm resize-none"
-        />
+        <label className="text-xs font-semibold text-navy/60 mb-1.5 block">What are you looking to do?</label>
+        <textarea rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Workshop, hackathon sponsorship, recruiting event, etc." className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-sm resize-none" />
       </div>
-      {status === "error" && <p className="text-red-400 text-xs">Something went wrong — please try again.</p>}
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 disabled:opacity-60 transition-colors text-[#0A1240] font-bold px-6 py-3 rounded-full text-sm"
-      >
+      {status === "error" && <p className="text-red-700 text-xs">Something went wrong — please try again.</p>}
+      <button type="submit" disabled={status === "sending"} className="inline-flex items-center gap-2 bg-navy text-cream font-bold uppercase tracking-wide text-xs px-6 py-3 rounded-sm disabled:opacity-60">
         {status === "sending" ? <Loader2 className="animate-spin" size={16} /> : <ArrowRight size={16} />}
         {status === "sending" ? "Sending…" : "Get in Touch"}
       </button>
@@ -97,76 +72,79 @@ function SponsorForm() {
 
 export default function Sponsors() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-sans">
       <Nav />
-
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-10 text-center">
-        <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">Partner With Us</p>
-        <h1 className="text-3xl sm:text-5xl font-black uppercase leading-tight mb-6">Join our sponsor program.</h1>
-        <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+      <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-16 sm:pt-20 pb-10 text-center">
+        <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-4">Partner With Us</p>
+        <h1 className="font-serif text-3xl sm:text-5xl leading-tight mb-6 text-navy">Join our sponsor program.</h1>
+        <p className="text-[#4A4A44] text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
           Partner with us to make a lasting impact on the future of Black and Latinx Computer Science students.
         </p>
       </section>
 
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
-        <h2 className="text-xl sm:text-2xl font-black uppercase mb-6 text-center">Why partner with us?</h2>
+      <Pinstripe />
+
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 py-16">
+        <h2 className="font-serif text-xl sm:text-2xl mb-6 text-center text-navy">Why partner with us?</h2>
         <div className="grid sm:grid-cols-2 gap-4">
           {SPONSOR_BENEFITS.map((b) => (
-            <div key={b} className="flex items-start gap-3 bg-[#111C4E] border border-white/10 rounded-xl p-4">
-              <CheckCircle2 className="text-orange-500 shrink-0 mt-0.5" size={17} />
-              <p className="text-sm text-slate-300 leading-relaxed">{b}</p>
+            <div key={b} className="flex items-start gap-3 bg-white border border-navy/10 rounded-sm p-4">
+              <CheckCircle2 className="text-brass shrink-0 mt-0.5" size={17} />
+              <p className="text-sm text-[#4A4A44] leading-relaxed">{b}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-white/10">
-        <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">What You&apos;d Be Part Of</p>
-        <h2 className="text-2xl sm:text-3xl font-black uppercase mb-8">Sponsored events.</h2>
+      <Pinstripe />
+
+      <section className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
+        <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">What You'd Be Part Of</p>
+        <h2 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">Sponsored events.</h2>
         <div className="grid sm:grid-cols-3 gap-5">
           {SPONSORED_EVENTS.map((ev) => (
-            <div key={ev.title} className="bg-[#111C4E] border border-white/10 rounded-xl p-5">
-              <h3 className="font-bold text-base mb-2">{ev.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{ev.blurb}</p>
+            <div key={ev.title} className="bg-white border border-navy/10 rounded-sm p-5">
+              <h3 className="font-bold text-base mb-2 text-navy">{ev.title}</h3>
+              <p className="text-[#6B6A64] text-sm leading-relaxed">{ev.blurb}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-16 border-t border-white/10">
-        <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">Recent Partnerships</p>
-        <h2 className="text-2xl sm:text-3xl font-black uppercase mb-8">Partner-led workshops.</h2>
+      <section className="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-navy/10">
+        <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Recent Partnerships</p>
+        <h2 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">Partner-led workshops.</h2>
         <div className="space-y-4">
           {PARTNER_WORKSHOPS.map((w) => (
-            <div key={w.title} className="bg-[#111C4E] border border-white/10 rounded-xl p-5 sm:p-6">
+            <div key={w.title} className="bg-white border border-navy/10 rounded-sm p-5 sm:p-6">
               <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-wide bg-orange-500/10 text-orange-400 px-2.5 py-1 rounded-full">{w.company}</span>
-                <span className="text-xs text-slate-500">{w.date}</span>
+                <span className="text-[10px] font-bold uppercase tracking-wide bg-brass/15 text-brass px-2.5 py-1 rounded-sm">{w.company}</span>
+                <span className="text-xs text-navy/40">{w.date}</span>
               </div>
-              <h3 className="font-bold text-base mb-2">{w.title}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed">{w.blurb}</p>
+              <h3 className="font-bold text-base mb-2 text-navy">{w.title}</h3>
+              <p className="text-[#6B6A64] text-sm leading-relaxed">{w.blurb}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 py-14 border-t border-white/10">
-        <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-6">Our Partners</p>
-        <div className="flex flex-wrap gap-x-8 sm:gap-x-10 gap-y-4 text-base sm:text-lg font-bold text-slate-300">
-          {PARTNERS.map((p) => (
-            <span key={p} className="opacity-70 hover:opacity-100 transition-opacity">{p}</span>
-          ))}
+      <Pinstripe />
+
+      <section className="max-w-6xl mx-auto px-5 sm:px-8 py-14">
+        <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-6">Our Partners</p>
+        <div className="flex flex-wrap gap-x-10 gap-y-4 text-base sm:text-lg font-serif font-bold text-navy/70">
+          {PARTNERS.map((p) => <span key={p}>{p}</span>)}
         </div>
-        <p className="text-slate-500 text-xs mt-6 max-w-xl">
-          Company names shown reflect active partnerships. Trademarked logos require permission to reproduce — swap in official marks only once usage is confirmed with each partner.
+        <p className="text-navy/40 text-xs mt-6 max-w-xl">
+          Company names shown reflect active partnerships. Trademarked logos require permission to reproduce.
         </p>
       </section>
 
-      <section id="sponsor-form" className="max-w-2xl mx-auto px-4 sm:px-6 py-16 border-t border-white/10 scroll-mt-24">
-        <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3 text-center">Let&apos;s Work Together</p>
-        <h2 className="text-2xl sm:text-3xl font-black uppercase mb-4 text-center">Get in touch.</h2>
-        <p className="text-slate-300 text-sm text-center leading-relaxed mb-8">
-          Fill out the form below and we&apos;ll get back to you with a customized proposal that fits your needs.
+      <section id="sponsor-form" className="max-w-2xl mx-auto px-5 sm:px-8 py-16 border-t border-navy/10 scroll-mt-24">
+        <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3 text-center">Let's Work Together</p>
+        <h2 className="font-serif text-2xl sm:text-3xl mb-4 text-center text-navy">Get in touch.</h2>
+        <p className="text-[#4A4A44] text-sm text-center leading-relaxed mb-8">
+          Fill out the form below and we'll get back to you with a customized proposal.
         </p>
         <SponsorForm />
       </section>

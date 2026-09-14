@@ -2,46 +2,49 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Instagram, Linkedin, ArrowRight, Lock, Menu, X } from "lucide-react";
-import { NAV_PAGES, STRIPE_BG } from "@/lib/content";
-
-function Logomark({ size = 30 }) {
-  return <div className="rounded-md shrink-0" style={{ width: size, height: size, ...STRIPE_BG }} aria-hidden="true" />;
-}
+import { ArrowRight, Lock, Menu, X } from "lucide-react";
+import { NAV_PAGES } from "@/lib/content";
+import Logomark from "./Logomark";
+import Pinstripe from "./Pinstripe";
 
 export default function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 bg-[#0A1240] border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <Logomark size={30} />
-          <span className="font-extrabold text-sm tracking-tight uppercase leading-none">
-            ColorStack<span className="text-orange-500"> UTA</span>
-          </span>
+    <header className="sticky top-0 z-50 bg-cream">
+      <Pinstripe />
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 h-[76px] flex items-center justify-between border-b border-navy/10">
+        <Link href="/" className="flex items-center gap-3.5" onClick={() => setOpen(false)}>
+          <Logomark size={36} />
+          <div className="leading-tight">
+            <div className="font-serif text-[15px] font-bold tracking-tight text-navy">ColorStack UTA</div>
+            <div className="font-sans text-[9px] tracking-[0.22em] text-brass font-bold uppercase mt-0.5">
+              University of Texas · Arlington
+            </div>
+          </div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+        <nav className="hidden md:flex items-center gap-9 text-[12.5px] font-sans font-semibold tracking-wide uppercase text-navy">
           {NAV_PAGES.map((l) => (
-            <a key={l.href} href={l.href} className="hover:text-white transition-colors">
+            <a key={l.href} href={l.href} className="pb-1 border-b border-transparent hover:border-brass transition-colors">
               {l.label}
             </a>
           ))}
         </nav>
 
         <div className="flex items-center gap-4">
-          <Link href="/admin" className="hidden sm:inline-flex text-slate-400 hover:text-white transition-colors" aria-label="Officer admin login" title="Officer admin login">
-            <Lock size={17} />
+          <Link href="/admin" className="hidden sm:inline-flex text-navy/50 hover:text-navy transition-colors" aria-label="Officer admin login" title="Officer admin login">
+            <Lock size={16} />
           </Link>
-          <a href="#" aria-label="Instagram" className="hidden sm:inline-flex text-slate-300 hover:text-white transition-colors"><Instagram size={18} /></a>
-          <a href="#" aria-label="LinkedIn" className="hidden sm:inline-flex text-slate-300 hover:text-white transition-colors"><Linkedin size={18} /></a>
-          <a href="/#portal" className="hidden sm:inline-flex items-center gap-1.5 bg-orange-500 hover:bg-orange-400 transition-colors text-[#0A1240] font-bold text-sm px-4 py-2 rounded-full">
-            Get Involved <ArrowRight size={15} />
+          <a
+            href="/portal"
+            className="hidden sm:inline-flex items-center gap-1.5 bg-navy text-cream font-sans font-bold text-[11.5px] tracking-wide uppercase px-5 py-2.5 rounded-sm hover:bg-navy/90 transition-colors whitespace-nowrap"
+          >
+            Get Involved <ArrowRight size={13} />
           </a>
           <button
             type="button"
-            className="md:hidden text-slate-300 hover:text-white transition-colors"
+            className="md:hidden text-navy"
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
@@ -52,28 +55,23 @@ export default function Nav() {
       </div>
 
       {open && (
-        <div className="md:hidden border-t border-white/10 bg-[#0A1240] px-6 py-4 flex flex-col gap-1">
+        <div className="md:hidden border-b border-navy/10 bg-cream px-5 py-4 flex flex-col gap-1 font-sans">
           {NAV_PAGES.map((l) => (
             <a
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="py-3 text-base font-semibold text-slate-200 border-b border-white/5 last:border-0"
+              className="py-3 text-sm font-semibold uppercase tracking-wide text-navy border-b border-navy/5 last:border-0"
             >
               {l.label}
             </a>
           ))}
-          <div className="flex items-center gap-5 pt-4">
-            <Link href="/admin" onClick={() => setOpen(false)} className="text-slate-400" aria-label="Officer admin login"><Lock size={18} /></Link>
-            <a href="#" aria-label="Instagram" className="text-slate-300"><Instagram size={18} /></a>
-            <a href="#" aria-label="LinkedIn" className="text-slate-300"><Linkedin size={18} /></a>
-          </div>
           <a
-            href="/#portal"
+            href="/portal"
             onClick={() => setOpen(false)}
-            className="mt-4 inline-flex items-center justify-center gap-1.5 bg-orange-500 text-[#0A1240] font-bold text-sm px-4 py-3 rounded-full"
+            className="mt-4 inline-flex items-center justify-center gap-1.5 bg-navy text-cream font-bold text-xs uppercase tracking-wide px-4 py-3 rounded-sm"
           >
-            Get Involved <ArrowRight size={15} />
+            Get Involved <ArrowRight size={14} />
           </a>
         </div>
       )}

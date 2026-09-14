@@ -1,29 +1,17 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import {
-  ArrowRight,
-  Users,
-  Building2,
-  Briefcase,
-  TrendingUp,
-  Calendar,
-  Search,
-  CheckCircle2,
-  XCircle,
-} from "lucide-react";
+import { ArrowRight, ArrowUpRight, Calendar, Handshake, Users, HeartHandshake, Palette } from "lucide-react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PhotoBlock from "@/components/PhotoBlock";
+import Pinstripe from "@/components/Pinstripe";
 import { storage } from "@/lib/storage";
-import { SEED_MEMBERS, SEED_EVENTS, IMAGE_SLOTS, PARTNERS, STRIPE_BG } from "@/lib/content";
+import { SEED_EVENTS, IMAGE_SLOTS, FLYER_SLOTS, PARTNERS, FOUNDED_YEAR, TRACKS } from "@/lib/content";
+
+const TRACK_ICONS = [Handshake, Users, HeartHandshake, Palette];
 
 async function ensureSeeded() {
-  try {
-    await storage.get("members");
-  } catch {
-    await storage.set("members", JSON.stringify(SEED_MEMBERS));
-  }
   try {
     await storage.get("events");
   } catch {
@@ -42,29 +30,21 @@ function formatDate(iso) {
 }
 
 export default function Home() {
-  const [members, setMembers] = useState(null);
   const [events, setEvents] = useState(null);
   const [siteImages, setSiteImages] = useState({});
   const [loading, setLoading] = useState(true);
-
-  const [email, setEmail] = useState("");
-  const [lookedUp, setLookedUp] = useState(null);
-  const [activeMember, setActiveMember] = useState(null);
 
   useEffect(() => {
     (async () => {
       try {
         await ensureSeeded();
-        const [m, e, img] = await Promise.all([
-          storage.get("members"),
+        const [e, img] = await Promise.all([
           storage.get("events"),
           storage.get("siteImages"),
         ]);
-        setMembers(m.value);
-        setEvents(e.value);
-        setSiteImages(img.value);
+        setEvents(typeof e.value === "string" ? JSON.parse(e.value) : e.value);
+        setSiteImages(typeof img.value === "string" ? JSON.parse(img.value) : img.value);
       } catch {
-        setMembers(SEED_MEMBERS);
         setEvents(SEED_EVENTS);
         setSiteImages({});
       } finally {
@@ -78,185 +58,198 @@ export default function Home() {
     return [...events].sort((a, b) => new Date(a.date) - new Date(b.date));
   }, [events]);
 
-  function handleLookup(e) {
-    e.preventDefault();
-    if (!members) return;
-    const found = members.find((m) => m.email.toLowerCase() === email.trim().toLowerCase());
-    if (found) {
-      setActiveMember(found);
-      setLookedUp("found");
-    } else {
-      setActiveMember(null);
-      setLookedUp("notfound");
-    }
-  }
-
   const highlightSlots = IMAGE_SLOTS.filter((s) => s.id !== "hero");
 
   return (
     <div className="min-h-screen">
       <Nav />
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-10 sm:pt-16 pb-12 sm:pb-14 grid md:grid-cols-2 gap-8 sm:gap-10 items-center">
-        <div>
-          <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-4">University of Texas at Arlington</p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-black leading-[1.1] mb-6 uppercase">
-            <span className="block">We build.</span>
-            <span className="block">We connect.</span>
-            <span className="block text-orange-500">We ColorStack.</span>
-          </h1>
-          <p className="text-slate-300 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
-            Empowering the next generation of Black and Latinx technical leaders at UT Arlington — through community, mentorship, and real pathways into tech.
+      {/* ---------------- HERO ---------------- */}
+      <section className="relative max-w-7xl mx-auto px-5 sm:px-8 pt-16 sm:pt-24 pb-16 grid md:grid-cols-2 gap-10 items-center overflow-hidden">
+        <svg
+          viewBox="0 0 40 46"
+          className="hidden md:block absolute -left-10 top-1/2 -translate-y-1/2 w-[520px] h-[600px] opacity-[0.035] pointer-events-none"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M20 2 L37 8 V22 C37 33 30 41 20 44 C10 41 3 33 3 22 V8 Z" stroke="#16233F" strokeWidth="0.5" />
+        </svg>
+        <div className="relative">
+          <p className="font-sans text-brass text-[11px] font-bold tracking-[0.28em] uppercase mb-7">
+            A Chapter of ColorStack National · Est. {FOUNDED_YEAR}
           </p>
-          <div className="flex flex-wrap gap-3">
-            <a href="#portal" className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-400 transition-colors text-[#0A1240] font-bold px-6 py-3 rounded-full">
-              Get Involved <ArrowRight size={16} />
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-[58px] leading-[1.1] mb-7 text-navy">
+            We build. We connect. <span className="italic">We ColorStack.</span>
+          </h1>
+          <p className="font-sans text-[16.5px] text-[#4A4A44] leading-relaxed max-w-lg mb-9">
+            Building the next generation of Black and Latinx technical leaders at UT Arlington — through community, mentorship, and real pathways into tech.
+          </p>
+          <div className="flex flex-wrap gap-4 font-sans">
+            <a href="/portal" className="inline-flex items-center gap-2 bg-navy text-cream font-bold text-[12.5px] uppercase tracking-wide px-7 py-3.5 rounded-sm whitespace-nowrap">
+              Get Involved <ArrowRight size={15} />
             </a>
-            <a href="#events" className="inline-flex items-center gap-2 border border-white/25 hover:border-white/60 transition-colors font-semibold px-6 py-3 rounded-full">
+            <a href="#events" className="inline-flex items-center gap-2 border border-navy text-navy font-bold text-[12.5px] uppercase tracking-wide px-7 py-3.5 rounded-sm">
               Explore Events
             </a>
           </div>
         </div>
-        <PhotoBlock src={siteImages.hero} alt="ColorStack UTA members on campus" className="w-full rounded-2xl aspect-[4/3] border border-white/10" />
+        <PhotoBlock src={siteImages.hero} alt="ColorStack UTA members on campus" className="w-full rounded-sm aspect-[4/3]" />
       </section>
 
-      <section className="border-y border-white/10 bg-[#0C1650]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
-          {[
-            { icon: Users, value: "400+", label: "Members" },
-            { icon: Building2, value: "20+", label: "Company Partners" },
-            { icon: Briefcase, value: "9+", label: "Internships Secured '24–'25" },
-            { icon: TrendingUp, value: "1", label: "Community. Endless Opportunities." },
-          ].map(({ icon: Icon, value, label }) => (
-            <div key={label} className="flex items-start gap-3">
-              <Icon className="text-orange-500 shrink-0 mt-1" size={20} />
-              <div>
-                <div className="text-xl sm:text-2xl font-black leading-none">{value}</div>
-                <div className="text-slate-400 text-xs sm:text-sm mt-1">{label}</div>
+      <Pinstripe />
+
+      {/* ---------------- STATS — navy contrast band ---------------- */}
+      <section className="bg-navy">
+        <div className="max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="flex flex-wrap md:flex-nowrap">
+            {[
+              { value: "400+", label: "Members" },
+              { value: "20+", label: "Company Partners" },
+              { value: "9+", label: "Internships '24–'25" },
+            ].map((s, i) => (
+              <div key={s.label} className={`flex-1 min-w-[160px] py-10 px-6 sm:px-10 ${i !== 0 ? "border-l border-cream/15" : ""}`}>
+                <div className="font-serif text-4xl sm:text-[42px] font-bold text-cream">{s.value}</div>
+                <div className="font-sans text-[10.5px] tracking-[0.16em] uppercase text-brass font-bold mt-2">{s.label}</div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <Pinstripe />
+
+      {/* ---------------- MEMBER PORTAL ---------------- */}
+      <section id="events" className="max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20 scroll-mt-24">
+        <div className="flex items-end justify-between mb-8 flex-wrap gap-3">
+          <div>
+            <p className="font-sans text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">What's Next</p>
+            <h2 className="font-serif text-2xl sm:text-3xl text-navy">Upcoming events.</h2>
+          </div>
+          <a href="/portal" className="font-sans inline-flex items-center gap-1.5 text-navy hover:text-brass text-sm font-semibold transition-colors">
+            Check your dues status <ArrowRight size={14} />
+          </a>
+        </div>
+        {loading ? (
+          <p className="font-sans text-navy/40 text-sm">Loading…</p>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 font-sans">
+            {upcomingEvents.slice(0, 4).map((ev) => (
+              <div key={ev.id} className="bg-white border border-navy/10 rounded-sm px-4 py-4">
+                <span className="inline-block text-[10px] font-bold uppercase tracking-wide text-brass bg-brass/10 px-2 py-1 rounded-sm mb-3">{ev.type}</span>
+                <div className="text-sm font-semibold text-navy mb-1">{ev.title}</div>
+                <div className="text-xs text-navy/50 flex items-center gap-1.5">
+                  <Calendar size={12} /> {formatDate(ev.date)} · {ev.time}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <Pinstripe />
+
+      {/* ---------------- HIGHLIGHTS ---------------- */}
+      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
+        <p className="font-sans text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">On Fire</p>
+        <h2 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">What we've been up to.</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 font-sans">
+          {highlightSlots.map((h) => (
+            <div key={h.id}>
+              <div className="relative rounded-sm overflow-hidden aspect-[4/3] mb-3 border border-navy/10">
+                <PhotoBlock src={siteImages[h.id]} alt={h.title} className="absolute inset-0 w-full h-full" />
+                <span className="absolute top-2.5 left-2.5 text-[9px] font-bold uppercase tracking-wide bg-brass text-navy px-2 py-1 rounded-sm">{h.tag}</span>
+              </div>
+              <h3 className="text-sm font-bold text-navy mb-1">{h.title}</h3>
+              <p className="text-[#6B6A64] text-xs leading-relaxed">{h.blurb}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section id="portal" className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
-        <div className="grid md:grid-cols-[1fr_1.2fr] gap-10 sm:gap-12">
+      <Pinstripe />
+
+      {/* ---------------- FLYERS SHOWCASE ---------------- */}
+      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
+        <div className="flex items-end justify-between mb-10 flex-wrap gap-3">
           <div>
-            <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">Member Portal</p>
-            <h2 className="text-2xl sm:text-3xl font-black uppercase mb-4 leading-tight">Check your dues status.</h2>
-            <p className="text-slate-300 leading-relaxed mb-6">
-              Look up your membership with the email you used to sign up. You&apos;ll see whether your dues are paid for this semester — we&apos;ll also check at the door for events.
-            </p>
-            <form onSubmit={handleLookup} className="flex flex-col sm:flex-row gap-3">
-              <div className="relative flex-1">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
-                <input
-                  type="email"
-                  required
-                  value={email}
-                  onChange={(ev) => setEmail(ev.target.value)}
-                  placeholder="you@mavs.uta.edu"
-                  className="w-full bg-[#111C4E] border border-white/15 focus:border-orange-500 outline-none rounded-full pl-10 pr-4 py-3 text-sm placeholder:text-slate-500 transition-colors"
-                />
-              </div>
-              <button type="submit" className="bg-orange-500 hover:bg-orange-400 transition-colors text-[#0A1240] font-bold px-6 py-3 rounded-full text-sm shrink-0">
-                Check Status
-              </button>
-            </form>
-            <p className="text-slate-500 text-xs mt-3">
-              Try <span className="text-slate-300">manny@uta.edu</span> (paid) or <span className="text-slate-300">alex.rios@uta.edu</span> (unpaid) to see it in action.
-            </p>
-
-            {lookedUp === "notfound" && (
-              <div className="mt-6 flex items-start gap-3 bg-[#111C4E] border border-white/10 rounded-xl p-4">
-                <XCircle className="text-slate-400 shrink-0 mt-0.5" size={18} />
-                <p className="text-sm text-slate-300">We couldn&apos;t find that email on file. Double-check it, or if you&apos;re new here, joining takes two minutes.</p>
-              </div>
-            )}
-
-            <div id="events" className="mt-10 scroll-mt-24">
-              <h3 className="text-sm font-bold uppercase tracking-wide text-slate-400 mb-4">Upcoming events</h3>
-              {loading ? (
-                <p className="text-slate-500 text-sm">Loading…</p>
-              ) : (
-                <div className="space-y-3">
-                  {upcomingEvents.slice(0, 4).map((ev) => (
-                    <div key={ev.id} className="flex items-center justify-between gap-3 bg-[#111C4E] border border-white/10 rounded-lg px-4 py-3">
-                      <div className="min-w-0">
-                        <div className="text-sm font-semibold truncate">{ev.title}</div>
-                        <div className="text-xs text-slate-400 flex items-center gap-1.5 mt-0.5">
-                          <Calendar size={12} /> {formatDate(ev.date)} · {ev.time}
-                        </div>
-                      </div>
-                      <span className="text-[10px] font-bold uppercase tracking-wide text-orange-400 bg-orange-500/10 px-2 py-1 rounded-full shrink-0">{ev.type}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <p className="font-sans text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Corporate Outreach</p>
+            <h2 className="font-serif text-2xl sm:text-3xl text-navy">See you there.</h2>
           </div>
-
-          <div className="flex items-start justify-center pt-2">
-            {lookedUp === "found" && activeMember ? (
-              <div className={`w-full max-w-sm rounded-2xl p-6 relative overflow-hidden border ${activeMember.duesPaid ? "border-green-500/40" : "border-slate-500/40"} bg-[#111C4E]`}>
-                <div className="absolute top-0 left-0 right-0 h-1.5" style={STRIPE_BG} />
-                <div className="flex items-center justify-between mb-8 mt-2">
-                  <span className="font-black text-xs tracking-tight uppercase">
-                    ColorStack<span className="text-orange-500"> UTA</span>
-                  </span>
-                  <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full ${activeMember.duesPaid ? "bg-green-500/15 text-green-400" : "bg-slate-500/15 text-slate-400"}`}>
-                    {activeMember.duesPaid ? <CheckCircle2 size={13} /> : <XCircle size={13} />}
-                    {activeMember.duesPaid ? "Dues Paid — Fall 2026" : "Dues Unpaid"}
-                  </span>
-                </div>
-                <div className="mb-1 text-2xl font-black leading-tight">{activeMember.name}</div>
-                <div className="text-orange-400 font-semibold text-sm mb-6">{activeMember.role}</div>
-                <div className="flex justify-between items-end text-xs text-slate-400 border-t border-white/10 pt-4">
-                  <span>Member since {activeMember.since}</span>
-                  <span className="tracking-widest">#{activeMember.email.split("@")[0].slice(0, 6).toUpperCase()}</span>
-                </div>
-                {!activeMember.duesPaid && (
-                  <p className="mt-4 text-xs text-slate-400 bg-[#0A1240] rounded-lg p-3">
-                    Dues aren&apos;t marked paid yet. Pay at the next GBM or event check-in — an officer will update your status.
-                  </p>
-                )}
-              </div>
-            ) : (
-              <div className="w-full max-w-sm rounded-2xl p-6 border border-dashed border-white/15 bg-[#111C4E]/50 text-center">
-                <div className="w-10 h-10 rounded-md mx-auto mb-4 opacity-60" style={STRIPE_BG} />
-                <p className="text-slate-400 text-sm">Your dues card will appear here once you check your status.</p>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 border-t border-white/10">
-        <div className="mb-8">
-          <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">On Fire</p>
-          <h2 className="text-2xl sm:text-3xl font-black uppercase">What we&apos;ve been up to.</h2>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-          {highlightSlots.map((h) => (
-            <div key={h.id} className="group">
-              <div className="relative rounded-xl overflow-hidden aspect-[4/3] mb-3 border border-white/10">
-                <PhotoBlock src={siteImages[h.id]} alt={h.title} className="absolute inset-0 w-full h-full" />
-                <span className="absolute top-2.5 left-2.5 text-[9px] sm:text-[10px] font-bold uppercase tracking-wide bg-orange-500 text-[#0A1240] px-2 py-1 rounded-full">
-                  {h.tag}
-                </span>
+          {FLYER_SLOTS.map((f) => (
+            <div key={f.id} className="group">
+              <div className="relative rounded-sm overflow-hidden aspect-[4/5] mb-3 border border-navy/10 bg-navy/[0.04]">
+                <PhotoBlock src={siteImages[f.id]} alt={f.title} className="absolute inset-0 w-full h-full" />
               </div>
-              <h3 className="text-sm font-bold mb-1">{h.title}</h3>
-              <p className="text-slate-400 text-xs leading-relaxed">{h.blurb}</p>
+              <h3 className="text-sm font-bold text-navy mb-1">{f.title}</h3>
+              <p className="text-[#6B6A64] text-xs leading-relaxed">{f.blurb}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-20 border-t border-white/10 grid md:grid-cols-3 gap-8">
+      <Pinstripe />
+
+      {/* ---------------- WHERE YOU FIT ---------------- */}
+      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
+        <div className="flex items-end justify-between mb-10 flex-wrap gap-3">
+          <div>
+            <p className="font-sans text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Get Involved</p>
+            <h2 className="font-serif text-2xl sm:text-3xl text-navy">Where you fit.</h2>
+          </div>
+          <a href="/about" className="font-sans hidden sm:inline-flex items-center gap-1.5 text-navy hover:text-brass text-sm font-semibold transition-colors">
+            Meet the full board <ArrowUpRight size={14} />
+          </a>
+        </div>
+        <div className="border-t border-navy/15">
+          {TRACKS.map((t, i) => {
+            const Icon = TRACK_ICONS[i % TRACK_ICONS.length];
+            return (
+              <div key={t.title} className={`group flex items-center gap-5 sm:gap-8 py-6 px-4 -mx-4 border-b border-navy/15 ${i % 2 === 1 ? "bg-navy/[0.025]" : ""}`}>
+                <span className="font-sans text-xs font-bold text-navy/30 w-6 shrink-0">{t.num}</span>
+                <div className="w-10 h-10 rounded-sm border border-navy/20 flex items-center justify-center shrink-0 group-hover:border-brass group-hover:bg-brass/10 transition-colors">
+                  <Icon size={18} className="text-navy" />
+                </div>
+                <div className="flex-1 min-w-0 grid sm:grid-cols-[220px_1fr] gap-1 sm:gap-6 items-baseline">
+                  <h3 className="font-serif text-lg sm:text-xl font-bold text-navy">{t.title}</h3>
+                  <p className="font-sans text-sm text-[#6B6A64]">{t.blurb}</p>
+                </div>
+                <div className="hidden md:flex flex-col items-end shrink-0 font-sans">
+                  <span className="text-[10px] uppercase tracking-wide text-navy/40">Led by</span>
+                  <span className="text-xs font-semibold text-navy">{t.lead}</span>
+                </div>
+                <ArrowUpRight size={16} className="text-navy/30 group-hover:text-brass transition-colors shrink-0" />
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* ---------------- PULL QUOTE — bold contrast moment ---------------- */}
+      <section className="relative bg-navy overflow-hidden">
+        <svg
+          viewBox="0 0 40 46"
+          className="absolute -right-16 -top-10 w-[420px] h-[480px] opacity-[0.06] pointer-events-none"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M20 2 L37 8 V22 C37 33 30 41 20 44 C10 41 3 33 3 22 V8 Z" stroke="#FAF7F0" strokeWidth="0.6" />
+        </svg>
+        <div className="max-w-4xl mx-auto px-5 sm:px-8 py-20 sm:py-28 text-center relative">
+          <p className="font-serif text-[28px] sm:text-[40px] leading-[1.3] text-cream">
+            A team committed to investing in the futures of{" "}
+            <span className="italic text-brass">those left behind.</span>
+          </p>
+        </div>
+      </section>
+
+      <Pinstripe />
+      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-16 sm:py-20 grid md:grid-cols-3 gap-8">
         <div>
-          <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase mb-3">Our Mission</p>
-          <p className="text-xl sm:text-2xl font-black leading-snug uppercase">To increase the number of Black and Latinx students in tech.</p>
-          <a href="/about" className="inline-flex items-center gap-1.5 text-orange-400 hover:text-orange-300 text-sm font-semibold mt-4">
+          <p className="font-sans text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Our Mission</p>
+          <p className="font-serif text-xl leading-snug text-navy">To increase the number of Black and Latinx students in tech.</p>
+          <a href="/about" className="font-sans inline-flex items-center gap-1.5 text-navy hover:text-brass text-sm font-semibold mt-4 transition-colors">
             Meet the team <ArrowRight size={14} />
           </a>
         </div>
@@ -265,23 +258,26 @@ export default function Home() {
           { title: "Development", body: "We provide resources, workshops, and mentorship to level up." },
           { title: "Opportunity", body: "We connect members to internships, jobs, and career-defining experiences." },
         ].map((item) => (
-          <div key={item.title}>
-            <h3 className="text-lg font-bold mb-2">{item.title}</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">{item.body}</p>
+          <div key={item.title} className="font-sans">
+            <h3 className="font-serif text-lg font-bold mb-2 text-navy">{item.title}</h3>
+            <p className="text-[#6B6A64] text-sm leading-relaxed">{item.body}</p>
           </div>
         ))}
       </section>
 
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-14 border-t border-white/10">
+      <Pinstripe />
+
+      {/* ---------------- PARTNERS ---------------- */}
+      <section className="max-w-7xl mx-auto px-5 sm:px-8 py-14 font-sans">
         <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
-          <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase">Our Partners</p>
-          <a href="/sponsors" className="inline-flex items-center gap-1.5 text-orange-400 hover:text-orange-300 text-sm font-semibold">
+          <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase">Our Partners</p>
+          <a href="/sponsors" className="inline-flex items-center gap-1.5 text-navy hover:text-brass text-sm font-semibold transition-colors">
             Become a sponsor <ArrowRight size={14} />
           </a>
         </div>
-        <div className="flex flex-wrap gap-x-8 sm:gap-x-10 gap-y-4 text-base sm:text-lg font-bold text-slate-300">
+        <div className="flex flex-wrap gap-x-10 gap-y-4 text-base sm:text-lg font-serif font-bold text-navy/70">
           {PARTNERS.map((p) => (
-            <span key={p} className="opacity-70 hover:opacity-100 transition-opacity">{p}</span>
+            <span key={p} className="hover:text-navy transition-colors">{p}</span>
           ))}
         </div>
       </section>

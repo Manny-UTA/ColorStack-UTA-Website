@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Unlock, Upload, Trash2, ShieldCheck, Loader2 } from "lucide-react";
+import { Lock, Unlock, Upload, Trash2, ShieldCheck, Loader2 } from "lucide-react";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import PhotoBlock from "@/components/PhotoBlock";
 import { storage } from "@/lib/storage";
-import { IMAGE_SLOTS, OFFICER_PASSCODE, MAX_IMAGE_BYTES } from "@/lib/content";
+import { IMAGE_SLOTS, FLYER_SLOTS, OFFICER_PASSCODE, MAX_IMAGE_BYTES } from "@/lib/content";
 
 function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
@@ -30,7 +30,7 @@ export default function AdminPage() {
     (async () => {
       try {
         const img = await storage.get("siteImages");
-        setSiteImages(img.value);
+        setSiteImages(typeof img.value === "string" ? JSON.parse(img.value) : img.value);
       } catch {
         setSiteImages({});
       }
@@ -84,77 +84,58 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-sans">
       <Nav />
-      <section className="max-w-5xl mx-auto px-4 sm:px-6 py-16 sm:py-20">
+      <section className="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
         <div className="flex items-center gap-2 mb-3">
-          <ShieldCheck className="text-orange-400" size={16} />
-          <p className="text-orange-400 text-xs font-bold tracking-[0.2em] uppercase">Officer Admin</p>
+          <ShieldCheck className="text-brass" size={16} />
+          <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase">Officer Admin</p>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black uppercase mb-8">Manage site photos.</h1>
+        <h1 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">Manage site photos.</h1>
 
         {!adminUnlocked ? (
           <form onSubmit={handleAdminLogin} className="max-w-sm">
-            <p className="text-slate-400 text-sm mb-4">Officers can enter the admin passcode to upload or replace photos used across the site.</p>
+            <p className="text-[#6B6A64] text-sm mb-4">Officers can enter the admin passcode to upload or replace photos.</p>
             <div className="flex gap-3">
               <input
                 type="password"
                 value={passcodeInput}
                 onChange={(e) => { setPasscodeInput(e.target.value); setPasscodeError(false); }}
                 placeholder="Officer passcode"
-                className={`flex-1 bg-[#111C4E] border rounded-full px-4 py-3 text-sm outline-none transition-colors ${passcodeError ? "border-red-500/60" : "border-white/15 focus:border-orange-500"}`}
+                className={`flex-1 bg-white border rounded-sm px-4 py-3 text-sm outline-none ${passcodeError ? "border-red-400" : "border-navy/20 focus:border-brass"}`}
               />
-              <button type="submit" className="bg-orange-500 hover:bg-orange-400 transition-colors text-[#0A1240] font-bold px-5 py-3 rounded-full text-sm shrink-0">
-                Unlock
-              </button>
+              <button type="submit" className="bg-navy text-cream font-bold uppercase tracking-wide text-xs px-5 py-3 rounded-sm shrink-0">Unlock</button>
             </div>
-            {passcodeError && <p className="text-red-400 text-xs mt-2">That passcode isn&apos;t right — check with your board for the current one.</p>}
-            <p className="text-slate-600 text-[11px] mt-4">
-              Demo note: this is a shared passcode for prototyping only. Swap this for real per-officer accounts (e.g. Clerk auth) before handling real member data.
+            {passcodeError && <p className="text-red-700 text-xs mt-2">That passcode isn't right.</p>}
+            <p className="text-navy/40 text-[11px] mt-4">
+              Demo note: shared passcode for prototyping only. Swap for real per-officer accounts (e.g. Clerk) before real member data.
             </p>
           </form>
         ) : (
           <div>
-            <div className="flex items-center gap-2 text-green-400 text-sm font-semibold mb-6">
-              <Unlock size={15} /> Admin unlocked — changes save to the shared database and are visible to everyone.
+            <div className="flex items-center gap-2 text-green-800 text-sm font-semibold mb-6">
+              <Unlock size={15} /> Admin unlocked.
             </div>
-            {uploadError && (
-              <div className="mb-6 bg-red-500/10 border border-red-500/30 text-red-300 text-sm rounded-lg p-3 max-w-lg">{uploadError}</div>
-            )}
+            {uploadError && <div className="mb-6 bg-red-50 border border-red-200 text-red-700 text-sm rounded-sm p-3 max-w-lg">{uploadError}</div>}
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {IMAGE_SLOTS.map((slot) => (
-                <div key={slot.id} className="bg-[#111C4E] border border-white/10 rounded-xl p-4">
-                  <div className="relative rounded-lg overflow-hidden aspect-[4/3] mb-3 border border-white/10">
+              {[...IMAGE_SLOTS, ...FLYER_SLOTS].map((slot) => (
+                <div key={slot.id} className="bg-white border border-navy/10 rounded-sm p-4">
+                  <div className={`relative rounded-sm overflow-hidden mb-3 border border-navy/10 ${slot.id.startsWith("flyer") ? "aspect-[4/5]" : "aspect-[4/3]"}`}>
                     <PhotoBlock src={siteImages[slot.id]} alt={slot.label} className="absolute inset-0 w-full h-full" />
                     {uploadingSlot === slot.id && (
-                      <div className="absolute inset-0 bg-[#0A1240]/70 flex items-center justify-center">
-                        <Loader2 className="animate-spin text-orange-400" size={22} />
+                      <div className="absolute inset-0 bg-navy/60 flex items-center justify-center">
+                        <Loader2 className="animate-spin text-cream" size={22} />
                       </div>
                     )}
                   </div>
-                  <p className="text-xs font-semibold mb-3 leading-snug">{slot.label}</p>
-                  <input
-                    ref={(el) => (fileInputRefs.current[slot.id] = el)}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) => handleImageUpload(slot.id, e.target.files)}
-                  />
+                  <p className="text-xs font-semibold mb-3 leading-snug text-navy">{slot.label}</p>
+                  <input ref={(el) => (fileInputRefs.current[slot.id] = el)} type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(slot.id, e.target.files)} />
                   <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => fileInputRefs.current[slot.id]?.click()}
-                      className="flex-1 inline-flex items-center justify-center gap-1.5 bg-orange-500 hover:bg-orange-400 transition-colors text-[#0A1240] font-bold text-xs px-3 py-2 rounded-full"
-                    >
+                    <button type="button" onClick={() => fileInputRefs.current[slot.id]?.click()} className="flex-1 inline-flex items-center justify-center gap-1.5 bg-navy text-cream font-bold text-xs px-3 py-2 rounded-sm">
                       <Upload size={13} /> {siteImages[slot.id] ? "Replace" : "Upload"}
                     </button>
                     {siteImages[slot.id] && (
-                      <button
-                        type="button"
-                        onClick={() => handleImageRemove(slot.id)}
-                        className="inline-flex items-center justify-center gap-1 border border-white/15 hover:border-red-500/50 hover:text-red-400 transition-colors text-xs px-3 py-2 rounded-full"
-                        aria-label={`Remove photo for ${slot.label}`}
-                      >
+                      <button type="button" onClick={() => handleImageRemove(slot.id)} className="inline-flex items-center justify-center gap-1 border border-navy/20 hover:border-red-400 hover:text-red-700 text-xs px-3 py-2 rounded-sm">
                         <Trash2 size={13} />
                       </button>
                     )}
@@ -162,9 +143,6 @@ export default function AdminPage() {
                 </div>
               ))}
             </div>
-            <p className="text-slate-600 text-[11px] mt-6 max-w-lg">
-              Keep photos under ~1.4MB each (compress at squoosh.app if needed).
-            </p>
           </div>
         )}
       </section>

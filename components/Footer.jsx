@@ -1,6 +1,6 @@
 "use client";
 
-import { Instagram, Linkedin, Mail, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Pinstripe from "./Pinstripe";
 import { FOUNDED_YEAR } from "@/lib/content";
 
@@ -26,7 +26,7 @@ export default function Footer() {
               href="https://linktr.ee/colorstack_uta"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 bg-brass text-navy font-bold text-xs uppercase tracking-wide px-4 py-2.5 rounded-sm"
+              className="inline-flex items-center gap-1.5 bg-cream text-navy font-bold text-xs uppercase tracking-wide px-4 py-2.5 rounded-sm whitespace-nowrap"
             >
               Become a Member <ArrowRight size={13} />
             </a>
@@ -44,30 +44,20 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-cream/50 mb-4">Follow</p>
-            <div className="flex gap-4">
-              <a href="#" aria-label="Instagram" className="text-cream/80 hover:text-cream transition-colors"><Instagram size={18} /></a>
-              <a href="#" aria-label="LinkedIn" className="text-cream/80 hover:text-cream transition-colors"><Linkedin size={18} /></a>
-              <a href="#" aria-label="Email" className="text-cream/80 hover:text-cream transition-colors"><Mail size={18} /></a>
-            </div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-cream/60 mb-4">Stay connected</p>
+            <p className="text-sm text-cream/80 leading-relaxed mb-4">Find chapter announcements and community channels in one place.</p>
+            <a href="https://linktr.ee/colorstack_uta" className="inline-flex items-center gap-2 text-sm text-cream underline underline-offset-4">Chapter links <ArrowRight size={14} /></a>
           </div>
-
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-cream/50 mb-4">Newsletter</p>
-            <form className="flex gap-2" onSubmit={(e) => e.preventDefault()}>
-              <input
-                type="email"
-                placeholder="Your email"
-                className="flex-1 min-w-0 bg-cream/10 border border-cream/20 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-xs placeholder:text-cream/40 text-cream"
-              />
-              <button className="bg-brass text-navy font-bold text-xs uppercase px-4 py-2.5 rounded-sm shrink-0">Join</button>
-            </form>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-cream/60 mb-4">Build with us</p>
+            <p className="text-sm text-cream/80 leading-relaxed mb-4">Connect your team with the next generation of technical talent.</p>
+            <a href="/sponsors#sponsor-form" className="inline-flex items-center gap-2 text-sm text-cream underline underline-offset-4">Partner with the chapter <ArrowRight size={14} /></a>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-8 border-t border-cream/10 pt-6 font-sans flex flex-col sm:flex-row justify-between gap-3 text-cream/50 text-xs">
-          <span>© {new Date().getFullYear()} ColorStack UTA · A chapter of ColorStack National, est. {FOUNDED_YEAR}</span>
-          <span>We Code. We Connect. We Cultivate.</span>
+          <span>© {new Date().getFullYear()} ColorStack UTA · Chapter founded {FOUNDED_YEAR}</span>
+          <span>We build. We connect. We ColorStack.</span>
         </div>
       </section>
     </>

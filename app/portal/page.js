@@ -91,14 +91,15 @@ export default function PortalPage() {
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-navy/40" size={16} />
                 <input
                   type="email"
+                  aria-label="Membership email"
                   required
                   value={email}
                   onChange={(ev) => setEmail(ev.target.value)}
                   placeholder="you@mavs.uta.edu"
-                  className="w-full bg-white border border-navy/20 focus:border-brass outline-none rounded-sm pl-10 pr-4 py-3 text-sm placeholder:text-navy/35"
+                  className="w-full bg-white border border-navy/20 focus:border-brass outline-none rounded-sm whitespace-nowrap pl-10 pr-4 py-3 text-sm placeholder:text-navy/35"
                 />
               </div>
-              <button type="submit" className="bg-navy text-cream font-bold uppercase tracking-wide text-xs px-6 py-3 rounded-sm shrink-0 whitespace-nowrap">
+              <button type="submit" className="bg-navy text-cream font-bold uppercase tracking-wide text-xs px-6 py-3 rounded-sm whitespace-nowrap shrink-0 whitespace-nowrap">
                 Check Status
               </button>
             </form>
@@ -113,21 +114,22 @@ export default function PortalPage() {
               </div>
             )}
 
-            <div className="mt-10">
-              <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-navy/50 mb-4">Upcoming events</h3>
+            <div id="events" className="mt-10 scroll-mt-24">
+              <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-navy/50 mb-4">All chapter events</h3>
               {loading ? (
                 <p className="text-navy/40 text-sm">Loading…</p>
               ) : (
                 <div className="space-y-3">
-                  {upcomingEvents.slice(0, 4).map((ev) => (
+                  {upcomingEvents.map((ev) => (
                     <div key={ev.id} className="flex items-center justify-between gap-3 bg-white border border-navy/10 rounded-sm px-4 py-3">
                       <div className="min-w-0">
-                        <div className="text-sm font-semibold text-navy truncate">{ev.title}</div>
+                        <div className="text-sm font-semibold text-navy">{ev.title}</div>
                         <div className="text-xs text-navy/50 flex items-center gap-1.5 mt-0.5">
-                          <Calendar size={12} /> {formatDate(ev.date)} · {ev.time}
+                          <Calendar size={12} className="shrink-0" /> {formatDate(ev.date)} · {ev.time}
                         </div>
+                        <p className="text-xs text-navy/70 mt-1">{ev.location}</p>
                       </div>
-                      <span className="text-[10px] font-bold uppercase tracking-wide text-brass bg-brass/10 px-2 py-1 rounded-sm shrink-0">{ev.type}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-brass bg-brass/10 px-2 py-1 rounded-sm whitespace-nowrap shrink-0">{ev.type}</span>
                     </div>
                   ))}
                 </div>
@@ -141,7 +143,7 @@ export default function PortalPage() {
                 <Pinstripe className="absolute top-0 left-0 right-0" />
                 <div className="flex items-center justify-between mb-8 mt-2">
                   <span className="font-serif font-bold text-sm text-navy">ColorStack UTA</span>
-                  <span className={`inline-flex items-center gap-1.5 text-[11px] font-bold uppercase px-3 py-1 rounded-sm ${activeMember.duesPaid ? "bg-green-700/10 text-green-800" : "bg-navy/10 text-navy/60"}`}>
+                  <span className={`inline-flex items-center gap-1.5 text-[11px] font-bold uppercase px-3 py-1 rounded-sm whitespace-nowrap ${activeMember.duesPaid ? "bg-navy/10 text-navy" : "bg-navy/10 text-navy/60"}`}>
                     {activeMember.duesPaid ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
                     {activeMember.duesPaid ? "Dues Paid" : "Dues Unpaid"}
                   </span>

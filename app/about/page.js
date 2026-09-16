@@ -1,4 +1,5 @@
 import { ArrowRight, Users, Sparkles, Briefcase } from "lucide-react";
+import Leadership from "@/components/Leadership";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Pinstripe from "@/components/Pinstripe";
@@ -9,32 +10,17 @@ export const metadata = {
   description: "Meet the ColorStack UTA e-board and officers, and learn about our mission and our national community.",
 };
 
-function PersonCard({ name, role }) {
-  const initials = name.split(" ").map((n) => n[0]).slice(0, 2).join("");
-  return (
-    <div className="bg-white border border-navy/10 rounded-sm p-5 flex items-center gap-4">
-      <div className="w-11 h-11 rounded-sm bg-navy text-cream flex items-center justify-center font-serif font-bold text-sm shrink-0">
-        {initials}
-      </div>
-      <div className="min-w-0">
-        <div className="font-bold text-sm text-navy truncate">{name}</div>
-        <div className="text-brass text-xs font-semibold">{role}</div>
-      </div>
-    </div>
-  );
-}
-
 export default function About() {
   return (
     <div className="min-h-screen font-sans">
       <Nav />
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-16 sm:pt-20 pb-14 text-center">
         <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-4">About Us</p>
-        <h1 className="font-serif text-3xl sm:text-5xl leading-tight mb-6 text-navy">
-          A chapter committed to investing in the futures of those left behind.
+        <h1 className="font-sans font-bold tracking-tight text-4xl sm:text-6xl leading-tight mb-6 text-navy">
+          Built on community. Driven by possibility.
         </h1>
         <p className="text-[#4A4A44] text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-          A tech student organization cultivating the strongest campus community of its kind — delivering community building, academic support, and career development for Black and Latinx CS students at UT Arlington, since {FOUNDED_YEAR}.
+          Since {FOUNDED_YEAR}, ColorStack UTA has brought Black and Latinx students together around a shared future in tech. We create space to build relationships, develop technical skills, and prepare for what comes next.
         </p>
       </section>
 
@@ -58,18 +44,14 @@ export default function About() {
 
       <section className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
         <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Leadership</p>
-        <h2 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">Meet the E-Board.</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {EBOARD.map((p) => <PersonCard key={p.name} {...p} />)}
-        </div>
+        <h2 className="font-sans font-bold tracking-tight text-3xl sm:text-4xl mb-8 text-navy">Meet the E-Board.</h2>
+        <Leadership people={EBOARD} />
       </section>
 
-      <section className="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-navy/10">
+      <section id="officers" className="scroll-mt-24 max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-navy/10">
         <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Directors</p>
-        <h2 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">Meet the Officers.</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
-          {OFFICERS.map((p) => <PersonCard key={p.name} {...p} />)}
-        </div>
+        <h2 className="font-sans font-bold tracking-tight text-3xl sm:text-4xl mb-8 text-navy">Meet the Officers.</h2>
+        <Leadership people={OFFICERS} />
       </section>
 
       <Pinstripe />
@@ -78,13 +60,13 @@ export default function About() {
         <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Our National Family</p>
         <h2 className="font-serif text-2xl sm:text-3xl mb-4 text-navy">About ColorStack National.</h2>
         <p className="text-[#4A4A44] leading-relaxed max-w-2xl mb-6">
-          The ColorStack Family is our community of 10,000+ Black and Latinx Computer Science students from 900+ schools nationwide, providing community building, academic support, and career development year-round.
+          Our chapter is part of ColorStack’s national community of Black and Latinx Computer Science students. Explore national membership for connections and resources beyond campus.
         </p>
         <a
           href="https://www.colorstack.org/join"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 border border-navy text-navy font-bold text-xs uppercase tracking-wide px-6 py-3 rounded-sm"
+          className="inline-flex items-center gap-2 border border-navy text-navy font-bold text-xs uppercase tracking-wide px-6 py-3 rounded-sm whitespace-nowrap"
         >
           Become a National Member <ArrowRight size={15} />
         </a>

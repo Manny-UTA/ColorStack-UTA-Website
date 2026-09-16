@@ -34,7 +34,7 @@ function SponsorForm() {
   if (status === "sent") {
     return (
       <div className="bg-white border border-navy/15 rounded-sm p-8 text-center">
-        <CheckCircle2 className="text-green-700 mx-auto mb-3" size={26} />
+        <CheckCircle2 className="text-navy mx-auto mb-3" size={26} />
         <h3 className="font-serif font-bold text-lg mb-1 text-navy">Thanks — we'll be in touch.</h3>
         <p className="text-[#6B6A64] text-sm">We'll follow up with a proposal tailored to your goals.</p>
       </div>
@@ -45,24 +45,24 @@ function SponsorForm() {
     <form onSubmit={handleSubmit} className="bg-white border border-navy/10 rounded-sm p-6 sm:p-8 space-y-4">
       <div className="grid sm:grid-cols-2 gap-4">
         <div>
-          <label className="text-xs font-semibold text-navy/60 mb-1.5 block">Company</label>
-          <input required value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-sm" />
+          <label htmlFor="sponsor-company" className="text-xs font-semibold text-navy/60 mb-1.5 block">Company</label>
+          <input required id="sponsor-company" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm whitespace-nowrap px-3.5 py-2.5 text-sm" />
         </div>
         <div>
-          <label className="text-xs font-semibold text-navy/60 mb-1.5 block">Your name</label>
-          <input required value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-sm" />
+          <label htmlFor="sponsor-name" className="text-xs font-semibold text-navy/60 mb-1.5 block">Your name</label>
+          <input required id="sponsor-name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm whitespace-nowrap px-3.5 py-2.5 text-sm" />
         </div>
       </div>
       <div>
-        <label className="text-xs font-semibold text-navy/60 mb-1.5 block">Email</label>
-        <input type="email" required value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-sm" />
+        <label htmlFor="sponsor-email" className="text-xs font-semibold text-navy/60 mb-1.5 block">Email</label>
+        <input type="email" required id="sponsor-email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm whitespace-nowrap px-3.5 py-2.5 text-sm" />
       </div>
       <div>
-        <label className="text-xs font-semibold text-navy/60 mb-1.5 block">What are you looking to do?</label>
-        <textarea rows={4} value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Workshop, hackathon sponsorship, recruiting event, etc." className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm px-3.5 py-2.5 text-sm resize-none" />
+        <label htmlFor="sponsor-message" className="text-xs font-semibold text-navy/60 mb-1.5 block">What are you looking to do?</label>
+        <textarea rows={4} id="sponsor-message" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Workshop, hackathon sponsorship, recruiting event, etc." className="w-full bg-cream border border-navy/15 focus:border-brass outline-none rounded-sm whitespace-nowrap px-3.5 py-2.5 text-sm resize-none" />
       </div>
       {status === "error" && <p className="text-red-700 text-xs">Something went wrong — please try again.</p>}
-      <button type="submit" disabled={status === "sending"} className="inline-flex items-center gap-2 bg-navy text-cream font-bold uppercase tracking-wide text-xs px-6 py-3 rounded-sm disabled:opacity-60">
+      <button type="submit" disabled={status === "sending"} className="inline-flex items-center gap-2 bg-navy text-cream font-bold uppercase tracking-wide text-xs px-6 py-3 rounded-sm whitespace-nowrap disabled:opacity-60">
         {status === "sending" ? <Loader2 className="animate-spin" size={16} /> : <ArrowRight size={16} />}
         {status === "sending" ? "Sending…" : "Get in Touch"}
       </button>
@@ -76,9 +76,9 @@ export default function Sponsors() {
       <Nav />
       <section className="max-w-4xl mx-auto px-5 sm:px-8 pt-16 sm:pt-20 pb-10 text-center">
         <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-4">Partner With Us</p>
-        <h1 className="font-serif text-3xl sm:text-5xl leading-tight mb-6 text-navy">Join our sponsor program.</h1>
+        <h1 className="font-serif text-3xl sm:text-5xl leading-tight mb-6 text-navy">Help talent take its next step.</h1>
         <p className="text-[#4A4A44] text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-          Partner with us to make a lasting impact on the future of Black and Latinx Computer Science students.
+          Connect with Black and Latinx technical talent at UT Arlington through hands-on learning, candid career conversations, and chapter support.
         </p>
       </section>
 
@@ -100,7 +100,7 @@ export default function Sponsors() {
 
       <section className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
         <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">What You'd Be Part Of</p>
-        <h2 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">Sponsored events.</h2>
+        <h2 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">Ways to work together.</h2>
         <div className="grid sm:grid-cols-3 gap-5">
           {SPONSORED_EVENTS.map((ev) => (
             <div key={ev.title} className="bg-white border border-navy/10 rounded-sm p-5">
@@ -111,14 +111,24 @@ export default function Sponsors() {
         </div>
       </section>
 
+      <section className="max-w-6xl mx-auto px-5 sm:px-8 pb-16">
+        <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Inside a chapter workshop</p>
+        <h2 className="font-serif text-3xl mb-4">Southwest Airlines × ColorStack UTA</h2>
+        <p className="text-navy/70 text-sm max-w-xl leading-relaxed mb-7">A look at our corporate workshop on early-career technology opportunities.</p>
+        <div className="grid md:grid-cols-2 gap-5">
+          <figure><img src="/images/southwest-group.png" alt="Chapter members gathered at the Southwest Airlines corporate workshop" className="w-full aspect-[4/3] object-contain bg-navy/[0.03] rounded-sm" /><figcaption className="text-xs text-navy/70 mt-3">Together after the workshop.</figcaption></figure>
+          <figure><img src="/images/southwest-workshop.png" alt="Attendees listening to a presentation on early-career technology opportunities at Southwest Airlines" className="w-full aspect-[4/3] object-cover rounded-sm" /><figcaption className="text-xs text-navy/70 mt-3">Exploring early-career technology opportunities.</figcaption></figure>
+        </div>
+      </section>
+
       <section className="max-w-6xl mx-auto px-5 sm:px-8 py-16 border-t border-navy/10">
-        <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">Recent Partnerships</p>
+        <p className="text-brass text-[11px] font-bold tracking-[0.24em] uppercase mb-3">From Our Community</p>
         <h2 className="font-serif text-2xl sm:text-3xl mb-8 text-navy">Partner-led workshops.</h2>
         <div className="space-y-4">
           {PARTNER_WORKSHOPS.map((w) => (
             <div key={w.title} className="bg-white border border-navy/10 rounded-sm p-5 sm:p-6">
               <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="text-[10px] font-bold uppercase tracking-wide bg-brass/15 text-brass px-2.5 py-1 rounded-sm">{w.company}</span>
+                <span className="text-[10px] font-bold uppercase tracking-wide bg-brass/15 text-brass px-2.5 py-1 rounded-sm whitespace-nowrap">{w.company}</span>
                 <span className="text-xs text-navy/40">{w.date}</span>
               </div>
               <h3 className="font-bold text-base mb-2 text-navy">{w.title}</h3>
@@ -136,7 +146,7 @@ export default function Sponsors() {
           {PARTNERS.map((p) => <span key={p}>{p}</span>)}
         </div>
         <p className="text-navy/40 text-xs mt-6 max-w-xl">
-          Company names shown reflect active partnerships. Trademarked logos require permission to reproduce.
+          Interested in working together? Tell us what your team would like to contribute.
         </p>
       </section>
 

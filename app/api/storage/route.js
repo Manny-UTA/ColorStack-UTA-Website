@@ -1,67 +1,30 @@
 import { Redis } from "@upstash/redis";
-import { NextResponse } from "next/server";
-
+import { officer, sameOrigin } from "@/lib/server/auth";
+import { IMAGE_SLOTS, FLYER_SLOTS, OFFICER_PHOTO_SLOTS, MAX_IMAGE_BYTES } from "@/lib/content";
 export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
-const NAMESPACE = "colorstackuta";
-
-const NO_STORE_HEADERS = {
-  "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
-};
-
-function namespacedKey(key) {
-  return `${NAMESPACE}:${key}`;
-}
-
-function getRedis() {
-  return Redis.fromEnv();
-}
-
+const reply = (body, status=200) => Response.json(body,{status,headers:{"Cache-Control":"no-store"}});
+const redis = () => new Redis({url:process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL,token:process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN});
 export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const key = searchParams.get("key");
-  if (!key) {
-    return NextResponse.json({ error: "Missing key" }, { status: 400, headers: NO_STORE_HEADERS });
-  }
-  try {
-    const redis = getRedis();
-    const value = await redis.get(namespacedKey(key));
-    if (value === null || value === undefined) {
-      return NextResponse.json({ error: "Not found" }, { status: 404, headers: NO_STORE_HEADERS });
-    }
-    return NextResponse.json({ key, value }, { headers: NO_STORE_HEADERS });
-  } catch (err) {
-    return NextResponse.json({ error: "Storage read failed" }, { status: 500, headers: NO_STORE_HEADERS });
-  }
+ const key = new URL(request.url).searchParams.get("key");
+ if(!["events","siteImages"].includes(key)) return reply({error:"Not found"},404);
+ try { const value = await redis().get(`colorstackuta:${key}`); return value == null ? reply({error:"Not found"},404) : reply({key,value}); } catch {return reply({error:"Storage unavailable"},503);}
 }
-
 export async function POST(request) {
-  try {
-    const body = await request.json();
-    const { key, value } = body;
-    if (!key || value === undefined) {
-      return NextResponse.json({ error: "Missing key or value" }, { status: 400, headers: NO_STORE_HEADERS });
-    }
-    const redis = getRedis();
-    await redis.set(namespacedKey(key), value);
-    return NextResponse.json({ key, value }, { headers: NO_STORE_HEADERS });
-  } catch (err) {
-    return NextResponse.json({ error: "Storage write failed" }, { status: 500, headers: NO_STORE_HEADERS });
-  }
+ if(!sameOrigin(request)) return reply({error:"Forbidden"},403);
+ try {
+ if(!await officer()) return reply({error:"Officer approval required"},403);
+ const raw = await request.text();
+ if(raw.length > 4_000_000) return reply({error:"Upload too large"},413);
+ const {key,value} = JSON.parse(raw);
+ if(key !== "siteImages") return reply({error:"Not found"},404);
+ const images = typeof value === "string" ? JSON.parse(value) : value;
+ const slots = new Set([...IMAGE_SLOTS,...FLYER_SLOTS,...OFFICER_PHOTO_SLOTS].map(s=>s.id));
+ if(!images || typeof images !== "object" || Array.isArray(images)) return reply({error:"Invalid images"},400);
+ for(const [slot,image] of Object.entries(images)) {
+ if(!slots.has(slot) || typeof image !== "string" || image.length > Math.ceil(MAX_IMAGE_BYTES*4/3)+100 || !/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/]+=*$/.test(image)) return reply({error:"Invalid image"},400);
+ }
+ await redis().set("colorstackuta:siteImages",JSON.stringify(images));
+ return reply({key,value:JSON.stringify(images)});
+ } catch {return reply({error:"Unable to save images"},503);}
 }
-
-export async function DELETE(request) {
-  const { searchParams } = new URL(request.url);
-  const key = searchParams.get("key");
-  if (!key) {
-    return NextResponse.json({ error: "Missing key" }, { status: 400, headers: NO_STORE_HEADERS });
-  }
-  try {
-    const redis = getRedis();
-    await redis.del(namespacedKey(key));
-    return NextResponse.json({ key, deleted: true }, { headers: NO_STORE_HEADERS });
-  } catch (err) {
-    return NextResponse.json({ error: "Storage delete failed" }, { status: 500, headers: NO_STORE_HEADERS });
-  }
-}
+export async function DELETE() { return reply({error:"Method not allowed"},405); }

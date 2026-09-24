@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Lock, Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { NAV_PAGES } from "@/lib/content";
 import Logomark from "./Logomark";
 import Pinstripe from "./Pinstripe";
@@ -35,9 +35,6 @@ export default function Nav() {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Link href="/admin" className="hidden sm:inline-flex text-navy/50 hover:text-navy transition-colors" aria-label="Officer admin login" title="Officer admin login">
-            <Lock size={16} />
-          </Link>
           <a
             href="https://linktr.ee/colorstack_uta"
             className="hidden sm:inline-flex items-center gap-1.5 bg-navy text-cream font-sans font-bold text-[11.5px] tracking-wide uppercase px-5 py-2.5 rounded-sm whitespace-nowrap hover:bg-navy/90 transition-colors whitespace-nowrap"

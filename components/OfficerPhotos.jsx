@@ -34,6 +34,17 @@ export default function AdminPage() {
     })();
   }, []);
 
+  async function saveImage(slotId, image) {
+    const response = await fetch("/api/storage", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ key: "siteImages", slotId, image }),
+    });
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.error || (response.status === 413 ? "The upload exceeded the server size limit." : `Upload failed (HTTP ${response.status}). Please check deployment logs.`));
+    }
+  }
+
   async function handleImageUpload(slotId, fileList) {
     const file = fileList?.[0];
     if (!file) return;
@@ -49,26 +60,23 @@ export default function AdminPage() {
     setUploadingSlot(slotId);
     try {
       const dataUrl = await fileToDataUrl(file);
-      const updated = { ...siteImages, [slotId]: dataUrl };
-      const result = await storage.set("siteImages", JSON.stringify(updated));
-      if (!result) throw new Error("Storage write failed");
-      setSiteImages(updated);
-    } catch {
-      setUploadError("Upload failed — please try again with a smaller image.");
+      await saveImage(slotId, dataUrl);
+      setSiteImages(previous => ({ ...previous, [slotId]: dataUrl }));
+    } catch (error) {
+      setUploadError(error.message);
     } finally {
       setUploadingSlot(null);
     }
   }
 
   async function handleImageRemove(slotId) {
+    setUploadError("");
     setUploadingSlot(slotId);
     try {
-      const updated = { ...siteImages };
-      delete updated[slotId];
-      await storage.set("siteImages", JSON.stringify(updated));
-      setSiteImages(updated);
-    } catch {
-      setUploadError("Couldn't remove that image — please try again.");
+      await saveImage(slotId, null);
+      setSiteImages(previous => { const updated = { ...previous }; delete updated[slotId]; return updated; });
+    } catch (error) {
+      setUploadError(error.message);
     } finally {
       setUploadingSlot(null);
     }
@@ -101,7 +109,7 @@ export default function AdminPage() {
                     )}
                   </div>
                   <p className="text-xs font-semibold mb-3 leading-snug text-navy">{slot.label}</p>
-                  <input ref={(el) => (fileInputRefs.current[slot.id] = el)} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={(e) => handleImageUpload(slot.id, e.target.files)} />
+                  <input ref={(el) => (fileInputRefs.current[slot.id] = el)} type="file" accept="image/jpeg,image/png,image/webp" className="hidden" onChange={(e) => { handleImageUpload(slot.id, e.target.files); e.target.value = ""; }} />
                   <div className="flex gap-2">
                     <button type="button" onClick={() => fileInputRefs.current[slot.id]?.click()} className="flex-1 inline-flex items-center justify-center gap-1.5 bg-navy text-cream font-bold text-xs px-3 py-2 rounded-sm whitespace-nowrap">
                       <Upload size={13} /> {siteImages[slot.id] ? "Replace" : "Upload"}

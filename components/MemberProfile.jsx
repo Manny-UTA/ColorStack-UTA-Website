@@ -1,4 +1,5 @@
 "use client";
+import MajorField from './MajorField';
 import {useEffect,useRef,useState} from 'react';
 import {MONTHS,STANDINGS,INTERESTS,ETHNICITIES,GENDERS,LGBTQ,INTERNATIONAL,EMPTY_PROFILE,CONSENT_TEXT} from '@/lib/profile-fields.mjs';
 const inputClass='w-full bg-cream border border-navy/20 rounded-sm px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brass/50';
@@ -21,7 +22,7 @@ export default function MemberProfile(){
  <fieldset disabled={busy} className="space-y-8 disabled:opacity-70">
  <section aria-labelledby="academic-title"><h3 id="academic-title" className="font-serif text-xl mb-5">Academic details</h3><div className="grid sm:grid-cols-2 gap-5">
  <Field label="Full name *"><input required autoComplete="name" maxLength={120} className={inputClass} value={form.name} onChange={e=>change('name',e.target.value)}/></Field>
- <Field label="Major *"><input required maxLength={150} className={inputClass} value={form.major} onChange={e=>change('major',e.target.value)}/></Field>
+ <MajorField value={form.major} onChange={value=>change('major',value)}/>
  {select('standing','Class year / academic standing *',STANDINGS,true)}{select('graduationMonth','Graduation month *',MONTHS,true)}
  <Field label="Graduation year *"><input required type="number" min={year-10} max={year+12} className={inputClass} value={form.graduationYear} onChange={e=>change('graduationYear',e.target.value)}/></Field>
  </div></section>

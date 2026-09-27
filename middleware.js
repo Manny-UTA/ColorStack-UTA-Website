@@ -5,4 +5,4 @@ export default function middleware(request, event) {
   if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY || !process.env.CLERK_SECRET_KEY) return NextResponse.next();
   return clerk(request, event);
 }
-export const config = { matcher: ["/portal(.*)", "/admin(.*)", "/sign-in(.*)", "/sign-up(.*)", "/api/account(.*)", "/api/profile(.*)", "/api/storage(.*)"] };
+export const config = { matcher: ["/portal(.*)", "/admin(.*)", "/sign-in(.*)", "/sign-up(.*)", "/api/account(.*)", "/api/profile(.*)", "/api/resume-book(.*)", "/api/storage(.*)"] };

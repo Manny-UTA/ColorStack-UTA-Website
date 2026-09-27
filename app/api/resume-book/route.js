@@ -1,0 +1,25 @@
+import JSZip from 'jszip';
+import {randomUUID} from 'node:crypto';
+import {officer,sameOrigin} from '@/lib/server/auth';
+import {api,TABLES} from '@/lib/server/profiles';
+import {eligibleResumes,csvIndex,recruitingFields} from '@/lib/resume-book.mjs';
+export const dynamic='force-dynamic';export const runtime='nodejs';export const maxDuration=60;
+const reply=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'private, no-store'}});
+async function all(table){const records=[];let offset;do{const q=new URLSearchParams({pageSize:'100'});if(offset)q.set('offset',offset);const d=await api(`${table}?${q}`);records.push(...d.records);offset=d.offset;if(records.length>1000)throw Error('This roster needs a larger export workflow.');}while(offset);return records;}
+async function eligible(){return eligibleResumes(await all(TABLES.members),await all(TABLES.resumes));}
+export async function GET(){try{if(!await officer())return reply({error:'Officer access required.'},403);const entries=await eligible();return reply({members:entries.map(({resume:r,member:m,file})=>({id:r.id,name:m.fields.Name,major:m.fields.Major||'',graduation:r.fields['Graduation Month/Year']||'',...recruitingFields(r.fields),availability:r.fields.Availability||'',size:file.size||0}))});}catch(e){return reply({error:e.message||'Unable to load eligible resumes.'},503);}}
+export async function POST(request){
+ if(!sameOrigin(request))return reply({error:'Request origin rejected.'},403);
+ try{const user=await officer();if(!user)return reply({error:'Officer access required.'},403);const text=await request.text();if(text.length>8000)return reply({error:'Request too large.'},400);let body;try{body=JSON.parse(text);}catch{return reply({error:'Invalid request.'},400);}
+ const {ids,partner}=body;if(typeof partner!=='string'||!partner.trim()||partner.length>150||!Array.isArray(ids)||!ids.length||ids.length>20||ids.some(x=>typeof x!=='string')||new Set(ids).size!==ids.length)return reply({error:'Enter a company and select 1–20 members.'},400);
+ const entries=(await eligible()).filter(e=>ids.includes(e.resume.id));if(entries.length!==ids.length)return reply({error:'Eligibility changed. Reload the list and select again.'},409);
+ const zip=new JSZip();let total=0;
+ for(let i=0;i<entries.length;i++){const e=entries[i];if(e.file.size>3*1024*1024)throw Error('A resume exceeds 3 MB. Ask the member to replace it.');const url=new URL(e.file.url);if(url.protocol!=='https:'||!url.hostname.endsWith('.airtableusercontent.com'))throw Error('Unrecognized resume download host.');const res=await fetch(url,{cache:'no-store',redirect:'error',signal:AbortSignal.timeout(8000)});if(!res.ok||!res.body)throw Error('A resume could not be downloaded. Please retry.');const reader=res.body.getReader();const chunks=[];let size=0;while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;total+=value.length;if(size>3*1024*1024||total>3500000){await reader.cancel();return reply({error:'Selected PDFs exceed the download limit. Select fewer members and export another batch.'},413);}chunks.push(value);}const bytes=Buffer.concat(chunks);if(bytes.subarray(0,5).toString()!=='%PDF-')throw Error('A stored resume is not a PDF.');e.filename=`resumes/${String(i+1).padStart(3,'0')}-${e.member.fields.Name.replace(/[^a-zA-Z0-9-]/g,'_').slice(0,70)}.pdf`;zip.file(e.filename,bytes);}
+ // Recheck current consent and attachment identity before creating the downloadable release.
+ const fresh=await eligible();if(entries.some(e=>!fresh.some(f=>f.resume.id===e.resume.id&&f.file.id===e.file.id)))return reply({error:'Consent or resume changed during export. Reload and try again.'},409);
+ zip.file('member-index.csv',csvIndex(entries));zip.file('README.txt',`ColorStack UTA — confidential recruiting materials\nIntended recipient: ${partner.trim()}\nCreated: ${new Date().toISOString()}\nOpen member-index.csv in Excel to filter. PDFs are in resumes/.\nUse only for recruiting. Do not redistribute. Contact colorstackuta@gmail.com for updates.\nThis is a snapshot; previously downloaded files cannot be revoked.\n`);
+ const data=await zip.generateAsync({type:'nodebuffer',compression:'DEFLATE'});if(data.length>4000000)return reply({error:'Export too large. Select fewer members.'},413);
+ const release=randomUUID();await api('tblqzeHCKURhVchkF',{method:'POST',body:JSON.stringify({typecast:true,records:[{fields:{Version:release,'Generation Date':new Date().toISOString().slice(0,10),'Included Members':entries.map(e=>e.member.id),'Recipient Partner':partner.trim(),'Resume Count':entries.length,'Release Notes':JSON.stringify({status:'Generated for officer download; not sent',officer:user.id,generatedAt:new Date().toISOString(),resumes:entries.map(e=>({record:e.resume.id,attachment:e.file.id}))})}}]})});
+ return new Response(data,{headers:{'Content-Type':'application/zip','Content-Disposition':`attachment; filename="ColorStack-UTA-resumes-${release.slice(0,8)}.zip"`,'Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'}});
+ }catch(e){return reply({error:e.message||'Export failed. No release was delivered.'},503);}
+}

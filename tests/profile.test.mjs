@@ -15,3 +15,4 @@ test('major categories normalize aliases and require explicit other',()=>{
  assert.equal(validateProfile({...valid,major:'Other: CS'},2026).major,'Computer Science');
  for(const major of ['anything','Other: ','Other'])assert.throws(()=>validateProfile({...valid,major},2026));
 });
+test('separates opportunity, career interest and availability',()=>{const p=validateProfile({...valid,interests:['Internship'],careerInterests:['Software Engineering','Data / AI'],availability:'May 2027'},2026);assert.deepEqual(p.interests,['Internship']);assert.equal(p.availability,'May 2027');assert.equal(p.careerInterests.length,2);assert.throws(()=>validateProfile({...valid,careerInterests:['Internship']},2026));assert.throws(()=>validateProfile({...valid,availability:'whenever'},2026));});

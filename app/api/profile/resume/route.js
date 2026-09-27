@@ -37,7 +37,7 @@ export async function DELETE(request){
  }catch(e){return failure(e);}
 }
 export async function GET(){
- try{const user=await identity();if(!user)return reply({error:'Please sign in.'},401);const records=await loadRecords(user);requireResumeRecord(records);const file=records.resume.fields['Resume File']?.at(-1);if(!file)return reply({error:'No resume uploaded.'},404);
+ try{const user=await identity();if(!user)return reply({error:'Please sign in.'},401);const records=await loadRecords(user);requireResumeRecord(records);const files=records.resume.fields['Resume File']||[];if(files.length>1)throw new ProfileError('Multiple resumes remain from an earlier upload. Replace your PDF to choose the current version.',409);const file=files[0];if(!file)return reply({error:'No resume uploaded.'},404);
  const url=new URL(file.url);if(url.protocol!=='https:'||!url.hostname.endsWith('.airtableusercontent.com'))throw new ProfileError('The resume download URL was not recognized.',503);
  const res=await fetch(url,{cache:'no-store',redirect:'error',signal:AbortSignal.timeout(15000)});if(!res.ok)throw new ProfileError('Resume download is temporarily unavailable. Try again.',503);
  return new Response(res.body,{headers:{'Content-Type':'application/octet-stream','Content-Disposition':'attachment; filename="ColorStack-UTA-resume.pdf"','Cache-Control':'private, no-store','X-Content-Type-Options':'nosniff'}});

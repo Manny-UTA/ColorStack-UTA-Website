@@ -46,3 +46,22 @@ test('retry uses session upsert, verifies member first, and propagates Airtable 
  assert.equal(calls[1].body,calls[3].body);
  await assert.rejects(recordPayment(env,fields,async()=>({ok:false,status:429})));
 });
+import {TERMS,currentTerm,annualAvailable,checkoutDeadline,coverage} from '../lib/payments/terms.mjs';
+test('Chicago term and annual cutoff boundaries are enforced',()=>{
+ assert.equal(currentTerm(new Date('2027-01-01T05:59:59Z')).semester,'Fall 2026');
+ assert.equal(currentTerm(new Date('2027-01-01T06:00:00Z')).semester,'Spring 2027');
+ assert.equal(currentTerm(new Date('2027-06-01T06:00:00Z')),null);
+ assert.equal(annualAvailable(TERMS[0],new Date('2026-10-31T12:00:00Z')),true);
+ assert.equal(annualAvailable(TERMS[0],new Date('2026-11-01T05:00:00Z')),false);
+ const annual={...session,amount_total:2500,metadata:{...session.metadata,plan:'annual'},expires_at:checkoutDeadline(TERMS[0],'annual')/1000};
+ assert.equal(paymentRecord(annual,[{quantity:1,price:{id:PRICES.annual.id}}],TERMS[0])['Coverage End'],'2027-05-31');
+ assert.throws(()=>paymentRecord({...annual,expires_at:annual.expires_at+1},[{quantity:1,price:{id:PRICES.annual.id}}],TERMS[0]));
+});
+test('only fully paid unrefunded coverage grants paid dues, independent of membership status',()=>{
+ const fields=paymentRecord(session,items,TERMS[0]);
+ assert.equal(coverage(fields,TERMS[0]),true);
+ assert.equal(coverage(fields,TERMS[1]),false);
+ assert.equal(coverage({...fields,'Amount Refunded':1},TERMS[0]),false);
+ assert.equal(coverage({...fields,'Payment Status':'Disputed'},TERMS[0]),false);
+ assert.equal(coverage({...fields,'Coverage End':'2026-09-01'},TERMS[0]),false);
+});

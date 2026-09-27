@@ -25,7 +25,7 @@ export async function POST(request){
  const uploaded=await api(`${records.resume.id}/${encodeURIComponent('Resume File')}/uploadAttachment`,{method:'POST',body:JSON.stringify({contentType:'application/pdf',file:bytes.toString('base64'),filename:name})},true);
  const attachments=Object.values(uploaded.fields||{}).filter(Array.isArray).flat();const attachment=attachments.find(a=>a?.filename===name&&a.id);
  if(!attachment)throw new ProfileError('The upload response was incomplete. Refresh your profile before retrying.',503);
- const resume=await patch(TABLES.resumes,records.resume.id,{'Resume File':[{id:attachment.id}],'Upload Date':new Date().toISOString(),'Resume Updated Date':new Date().toISOString()});
+ const resume=await patch(TABLES.resumes,records.resume.id,{'Resume File':[{id:attachment.id}],'Upload Date':new Date().toISOString(),'Resume Updated Date':new Date().toISOString().slice(0,10)});
  return displayProfile({...records,resume},user);
  }));
  }catch(e){return failure(e);}

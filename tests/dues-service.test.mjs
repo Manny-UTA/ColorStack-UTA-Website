@@ -22,6 +22,7 @@ class FixedDate extends OriginalDate{constructor(...args){super(...(args.length?
 globalThis.Date=FixedDate;
 globalThis.fetch=async(url,opts)=>{
  let session;
+ if(url.includes('/checkout/sessions?payment_intent='))return {ok:true,json:async()=>({data:[...sessions.values()],has_more:false})};
  if(url.endsWith('/checkout/sessions')){
  const key=opts.headers['Idempotency-Key'];session=sessions.get(key);
  if(!session){created++;const b=opts.body;session={id:'cs_test_one',url:'https://checkout.stripe.com/test',status:'open',payment_status:'unpaid',livemode:false,mode:'payment',currency:'usd',amount_total:1500,created:Date.now()/1000,expires_at:Number(b.get('expires_at')),client_reference_id:b.get('client_reference_id'),metadata:Object.fromEntries(['purpose','plan','member_record_id','clerk_user_id','semester'].map(k=>[k,b.get(`metadata[${k}]`)])),line_items:{data:[{quantity:1,price:{id:b.get('line_items[0][price]')}}]},payment_intent:{id:'pi_test',latest_charge:{amount_refunded:0}}};sessions.set(key,session);}
@@ -31,16 +32,29 @@ globalThis.fetch=async(url,opts)=>{
 };
 test('checkout recovers uncertain creation, reuses open session, links identity, records once and prevents repeat payment',async()=>{
  try{
+ await assert.rejects(svc.requirePaidResumeAccess({id:'user_test'},member),/Pay membership dues/);
+ await assert.rejects(svc.requirePaidResumeAccess({id:'user_other'},member),/own member profile/);
  failAfterCreate=true;await assert.rejects(svc.checkout({id:'user_test'},'semester','https://preview.example'));
  await svc.checkout({id:'user_test'},'semester','https://preview.example');
  await svc.checkout({id:'user_test'},'semester','https://preview.example');assert.equal(created,1);
  const session=[...sessions.values()][0];assert.equal(session.metadata.clerk_user_id,'user_test');
  session.status='complete';session.payment_status='paid';
  const status=await svc.duesStatus({id:'user_test'});assert.equal(status.paid,true);assert.equal(ledger.length,1);
+ await svc.requirePaidResumeAccess({id:'user_test'},member);
+ await assert.rejects(svc.requirePaidResumeAccess({id:'user_test'},{...member,fields:{...member.fields,'Membership Status':'Suspended'}}),/officer review/);
+ class ExpiredDate extends OriginalDate{constructor(...args){super(...(args.length?args:['2027-06-02T12:00:00Z']));}static now(){return OriginalDate.parse('2027-06-02T12:00:00Z');}}
+ globalThis.Date=ExpiredDate;await assert.rejects(svc.requirePaidResumeAccess({id:'user_test'},member),/Pay membership dues/);globalThis.Date=FixedDate;
  await assert.rejects(svc.checkout({id:'user_test'},'semester','https://preview.example'),/already cover/);
  session.payment_intent.latest_charge.amount_refunded=1500;
+ await svc.reconcilePaymentEvent({type:'charge.refunded',data:{object:{payment_intent:'pi_test'}}});
+ assert.equal(ledger[0].fields['Payment Status'],'Refunded');
  assert.equal((await svc.duesStatus({id:'user_test'})).paid,false);
+ await assert.rejects(svc.requirePaidResumeAccess({id:'user_test'},member),/Pay membership dues/);
+ session.payment_intent.latest_charge.amount_refunded=0;session.payment_intent.latest_charge.disputed=true;
+ await assert.rejects(svc.requirePaidResumeAccess({id:'user_test'},member),/Pay membership dues/);
  await assert.rejects(svc.checkout({id:'user_test'},'semester','https://preview.example'),/officer review/);
+ await svc.reconcilePaymentEvent({type:'charge.dispute.created',data:{object:{payment_intent:'pi_test'}}});assert.equal(ledger[0].fields['Payment Status'],'Disputed');
+ session.payment_intent.latest_charge.disputed=false;await svc.reconcilePaymentEvent({type:'checkout.session.completed',data:{object:{id:session.id}}});assert.equal(ledger[0].fields['Payment Status'],'Paid');
  session.metadata.clerk_user_id='user_other';await assert.rejects(svc.duesStatus({id:'user_test'}),/mismatch/);
  }finally{globalThis.fetch=originalFetch;globalThis.Date=OriginalDate;delete globalThis.__duesTest;}
 });

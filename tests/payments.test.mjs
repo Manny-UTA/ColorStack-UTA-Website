@@ -65,3 +65,17 @@ test('only fully paid unrefunded coverage grants paid dues, independent of membe
  assert.equal(coverage({...fields,'Payment Status':'Disputed'},TERMS[0]),false);
  assert.equal(coverage({...fields,'Coverage End':'2026-09-01'},TERMS[0]),false);
 });
+
+import {paymentConfiguration,LIVE_PRICES,LIVE_BASE} from '../lib/payments/stripe.mjs';
+test('live configuration requires explicit enablement and matching production credentials/base',()=>{
+ const live={VERCEL_ENV:'production',MEMBERSHIP_LIVE_ENABLED:'true',AIRTABLE_BASE_ID:LIVE_BASE,AIRTABLE_ACCESS_TOKEN:'fake',STRIPE_SECRET_KEY:'sk_live_fake'};
+ const config=paymentConfiguration(live);assert.equal(config.live,true);
+ for(const patch of [{MEMBERSHIP_LIVE_ENABLED:undefined},{AIRTABLE_BASE_ID:TEST_BASE},{STRIPE_SECRET_KEY:'sk_test_fake'}])assert.throws(()=>paymentConfiguration({...live,...patch}));
+ assert.throws(()=>paymentConfiguration({...live,VERCEL_ENV:'preview'}));
+ const liveSession={...session,id:'cs_live_123',livemode:true};
+ const liveItems=[{quantity:1,price:{id:LIVE_PRICES.semester.id}}];
+ assert.equal(paymentRecord(liveSession,liveItems,terms,config)['Amount Paid'],15);
+ assert.throws(()=>paymentRecord(liveSession,items,terms,config));
+ assert.equal(paymentRecord(session,items,terms,config),null);
+ assert.equal(paymentRecord(liveSession,liveItems,terms),null);
+});

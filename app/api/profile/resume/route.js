@@ -1,3 +1,4 @@
+import {requirePaidResumeAccess} from '@/lib/server/dues';
 import {randomUUID} from 'node:crypto';
 import {identity,sameOrigin} from '@/lib/server/auth';
 import {ProfileError} from '@/lib/profile-fields.mjs';
@@ -19,6 +20,7 @@ export async function POST(request){
  if(!bytes.subarray(0,5).equals(Buffer.from('%PDF-'))||!bytes.subarray(-2048).includes(Buffer.from('%%EOF')))return reply({error:'This file does not appear to be a complete PDF. Export your resume as PDF and retry.'},400);
  return reply(await withProfileLock(user.id,async()=>{
  const records=await loadRecords(user);requireResumeRecord(records);
+ await requirePaidResumeAccess(user,records.member);
  // Replacing a resume withdraws the previous sharing consent before upload.
  await patch(TABLES.resumes,records.resume.id,consentFields(false));
  const name=`resume-${randomUUID()}.pdf`;

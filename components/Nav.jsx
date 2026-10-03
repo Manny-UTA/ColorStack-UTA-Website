@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { NAV_PAGES } from "@/lib/content";
-import Logomark from "./Logomark";
+
 import Pinstripe from "./Pinstripe";
 
 export default function Nav() {
@@ -17,7 +17,7 @@ export default function Nav() {
 
       <div className="max-w-7xl mx-auto px-5 sm:px-8 h-[76px] flex items-center justify-between border-b border-navy/10">
         <Link href="/" className="flex items-center gap-2 sm:gap-3.5" onClick={() => setOpen(false)}>
-          <Logomark size={36} />
+          <img src="/images/colorstack-uta-logo.svg" alt="" width="44" height="44" className="shrink-0 rounded-lg" />
           <div className="leading-tight">
             <div className="font-sans text-[15px] font-bold tracking-tight text-navy">ColorStack UTA</div>
             <div className="font-sans text-[8px] sm:text-[9px] tracking-[0.1em] text-brass font-bold uppercase mt-0.5">
@@ -36,7 +36,7 @@ export default function Nav() {
 
         <div className="flex items-center gap-4">
           <a
-            href="https://linktr.ee/colorstack_uta"
+            href="/portal"
             className="hidden sm:inline-flex items-center gap-1.5 bg-navy text-cream font-sans font-bold text-[11.5px] tracking-wide uppercase px-5 py-2.5 rounded-sm whitespace-nowrap hover:bg-navy/90 transition-colors whitespace-nowrap"
           >
             Join the Chapter <ArrowRight size={13} />
@@ -66,7 +66,7 @@ export default function Nav() {
             </a>
           ))}
           <a
-            href="https://linktr.ee/colorstack_uta"
+            href="/portal"
             onClick={() => setOpen(false)}
             className="mt-4 inline-flex items-center justify-center gap-1.5 bg-navy text-cream font-bold text-xs uppercase tracking-wide px-4 py-3 rounded-sm whitespace-nowrap"
           >

@@ -1,6 +1,6 @@
 import { Redis } from "@upstash/redis";
 import { officer, sameOrigin } from "@/lib/server/auth";
-import { IMAGE_SLOTS, FLYER_SLOTS, OFFICER_PHOTO_SLOTS } from "@/lib/content";
+import { CHAPTER_EVENTS, IMAGE_SLOTS, FLYER_SLOTS, OFFICER_PHOTO_SLOTS } from "@/lib/content";
 import { validImage, UPDATE_IMAGE } from "@/lib/server/images.mjs";
 export const dynamic = "force-dynamic";
 const reply = (body, status=200) => Response.json(body,{status,headers:{"Cache-Control":"no-store"}});
@@ -22,7 +22,9 @@ function storageFailure(error) {
 }
 export async function GET(request) {
  const key = new URL(request.url).searchParams.get('key');
- if(!['events','siteImages'].includes(key)) return reply({error:'Not found'},404);
+ // Serve the confirmed calendar instead of legacy demo events in Redis.
+ if(key==='events') return reply({key,value:CHAPTER_EVENTS});
+ if(!['siteImages'].includes(key)) return reply({error:'Not found'},404);
  try {const value=await redis().get(`colorstackuta:${key}`);return value==null ? reply({error:'Not found'},404) : reply({key,value});} catch(error) {return storageFailure(error);}
 }
 export async function POST(request) {

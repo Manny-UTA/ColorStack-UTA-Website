@@ -5,11 +5,11 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import SponsorBanner from "@/components/SponsorBanner";
 import { storage } from "@/lib/storage";
-import { SEED_EVENTS, TRACKS } from "@/lib/content";
+import { CHAPTER_EVENTS, TRACKS } from "@/lib/content";
 import { upcomingEvents } from "@/lib/events.mjs";
 
 export default function Home() {
-  const [events, setEvents] = useState(SEED_EVENTS);
+  const [events, setEvents] = useState(CHAPTER_EVENTS);
   const [images, setImages] = useState({});
   const [offerCount, setOfferCount] = useState(87);
   useEffect(() => { fetch("/api/impact").then(r=>r.json()).then(d=>{if(Number.isInteger(d.offers))setOfferCount(d.offers);}).catch(()=>{}); }, []);
@@ -71,7 +71,7 @@ export default function Home() {
 
       <section id="events" className="cs-shell cs-section">
         <div className="cs-section-heading"><div><p className="cs-eyebrow">MAKE ROOM ON YOUR CALENDAR</p><h2>See you <em>there.</em></h2></div><a className="cs-text-link" href="/portal#events">All chapter events <ArrowUpRight size={16} /></a></div>
-        <div className="cs-event-list">{nextEvents.length ? nextEvents.map(event => <article className="cs-event" key={event.id}><time dateTime={event.date}><strong>{event.date.slice(8)}</strong><span>{new Date(event.date + "T12:00:00").toLocaleDateString("en-US", {month:"short"})}</span></time><div><span className="cs-eyebrow">{event.type}</span><h3>{event.title}</h3><p><Calendar size={13} />{event.time}<span aria-hidden="true">·</span><MapPin size={13} />{event.location}</p></div><a href="/portal#events" className="cs-event-arrow" aria-label={`View chapter event list for ${event.title}`}><ArrowUpRight size={22} /></a></article>) : <p className="cs-empty">More chapter events are on the way. <a href="https://linktr.ee/colorstack_uta">Follow our chapter announcements ↗</a></p>}</div>
+        <div className="cs-event-list">{nextEvents.length ? nextEvents.map(event => <article className="cs-event" key={event.id}><time dateTime={event.date}><strong>{event.date.slice(8)}</strong><span>{new Date(event.date + "T12:00:00").toLocaleDateString("en-US", {month:"short"})}</span></time><div><span className="cs-eyebrow">{event.type}</span><h3>{event.title}</h3>{event.description && <p>{event.description}</p>}<p><Calendar size={13} />{event.time}<span aria-hidden="true">·</span><MapPin size={13} />{event.location}</p></div><a href="/portal#events" className="cs-event-arrow" aria-label={`View chapter event list for ${event.title}`}><ArrowUpRight size={22} /></a></article>) : <p className="cs-empty">More chapter events are on the way. <a href="https://linktr.ee/colorstack_uta">Follow our chapter announcements ↗</a></p>}</div>
       </section>
 
       <section className="cs-shell cs-section" aria-labelledby="noticeboard-title"><div className="cs-section-heading"><div><p className="cs-eyebrow">FROM THE CHAPTER</p><h2 id="noticeboard-title">The <em>noticeboard.</em></h2></div><p>Opportunities, programs, wins, and things worth knowing.</p></div><div className="cs-noticeboard">

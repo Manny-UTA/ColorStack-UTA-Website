@@ -20,7 +20,7 @@ export default function Footer() {
           <div>
             <p className="text-brass text-[11px] font-bold tracking-[0.2em] uppercase mb-3">Join the Chapter</p>
             <p className="text-cream/75 text-sm leading-relaxed mb-5">
-              Be part of a thriving network of Black and Latinx Computer Science students. Together, we grow, learn, and succeed.
+              Be part of a thriving network of Black and Latinx students in technology. Together, we grow, learn, and succeed.
             </p>
             <a
               href="https://linktr.ee/colorstack_uta"

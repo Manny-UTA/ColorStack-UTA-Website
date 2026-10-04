@@ -11,7 +11,7 @@ import { upcomingEvents } from "@/lib/events.mjs";
 export default function Home() {
   const [events, setEvents] = useState(SEED_EVENTS);
   const [images, setImages] = useState({});
-  const [offerCount, setOfferCount] = useState(72);
+  const [offerCount, setOfferCount] = useState(87);
   useEffect(() => { fetch("/api/impact").then(r=>r.json()).then(d=>{if(Number.isInteger(d.offers))setOfferCount(d.offers);}).catch(()=>{}); }, []);
   useEffect(() => {
     let active = true;
@@ -39,7 +39,7 @@ export default function Home() {
           <h1 className="cs-display">Your people.<br />Your next<br /><em>possibility.</em></h1>
           <p className="cs-intro">A community for Black and Latinx students building their future in tech. Find your people. Develop your craft. Take the next step together.</p>
           <div className="cs-actions"><a className="cs-button" href="/portal">Join the chapter <ArrowUpRight size={16} /></a><a className="cs-text-link" href="/sponsors">Partner with us <ArrowRight size={16} /></a></div>
-          <div className="cs-hero-foot"><span>STUDENT LED. FUTURE FOCUSED.</span><span>ARLINGTON, TX · SINCE 2023</span></div>
+          <div className="cs-hero-foot"><span>STUDENT LED. FUTURE FOCUSED.</span><span>ARLINGTON, TX · SINCE 2024</span></div>
         </div>
         <div className="cs-hero-visual cs-enter">
           <div className="cs-image-label"><span>01 / THE PEOPLE BEHIND IT</span><span>UTA ↗</span></div>
@@ -52,7 +52,7 @@ export default function Home() {
         <div className="cs-shell cs-outcomes-grid">
           <div><p className="cs-eyebrow">THE WORK LEADS SOMEWHERE</p><h2 id="outcomes-title">Ambition, with<br /><em>something to show.</em></h2><p>Real opportunities earned by members of our community.</p></div>
           <div className="cs-main-stat"><span>{offerCount}+</span><h3>Reported Internship &amp; Full-Time Offers</h3><p>Member-reported outcomes across our community</p></div>
-          <div className="cs-secondary-stats"><div><strong>400+</strong><span>Members</span></div><div><strong>2023</strong><span>Our chapter began</span></div></div>
+          <div className="cs-secondary-stats"><div><strong>400+</strong><span>Members</span></div><div><strong>2024</strong><span>Our chapter began</span></div></div>
         </div>
       </section>
 

@@ -5,11 +5,11 @@ export const metadata = {
   title: "ColorStack UTA | Black & Latinx CS Community at UT Arlington",
   description:
     "ColorStack at UT Arlington supports Black and Latinx students in Computer Science and Technology through community, mentorship, career resources, and internship pipelines with partner companies.",
-  metadataBase: new URL("https://colorstackuta.dev"),
+  metadataBase: new URL("https://colorstackuta.org"),
   openGraph: {
     title: "ColorStack UTA",
     description: "Empowering the next generation of Black and Latinx technical leaders at UT Arlington.",
-    url: "https://colorstackuta.dev",
+    url: "https://colorstackuta.org",
     siteName: "ColorStack UTA",
     type: "website",
   },

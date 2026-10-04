@@ -5,7 +5,10 @@ export const metadata = {
   title: "ColorStack UTA | Black & Latinx CS Community at UT Arlington",
   description:
     "ColorStack at UT Arlington supports Black and Latinx students in Computer Science and Technology through community, mentorship, career resources, and internship pipelines with partner companies.",
+  alternates: { canonical: "https://colorstackuta.org" },
   metadataBase: new URL("https://colorstackuta.org"),
+  icons: { icon: [{ url: "/favicon.ico", sizes: "16x16 32x32 48x48", type: "image/x-icon" }, { url: "/icon.png", sizes: "192x192", type: "image/png" }], apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }] },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "ColorStack UTA",
     description: "Empowering the next generation of Black and Latinx technical leaders at UT Arlington.",

@@ -56,4 +56,4 @@ Every key is stored under a `colorstackuta:` prefix (e.g. `colorstackuta:members
 ## Still worth doing before this handles real member data
 
 - **Officer passcode** — `OFFICER_PASSCODE` in `lib/content.js` is a single shared code, not real login. Replace with Clerk (free in the GitHub Student Developer Pack) so each officer has their own account and actions are attributable.
-- **Connect `colorstackuta.dev`** — Vercel project → Settings → Domains.
+- **Connect `colorstackuta.org`** — Vercel project → Settings → Domains.

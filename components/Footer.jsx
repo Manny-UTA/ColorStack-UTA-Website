@@ -57,7 +57,7 @@ export default function Footer() {
 
         <div className="max-w-7xl mx-auto px-5 sm:px-8 pb-8 border-t border-cream/10 pt-6 font-sans flex flex-col sm:flex-row justify-between gap-3 text-cream/50 text-xs">
           <span>© {new Date().getFullYear()} ColorStack UTA · Chapter founded {FOUNDED_YEAR}</span>
-          <span>We build. We connect. We ColorStack.</span>
+          <div className="sm:text-right"><span>We build. We connect. We ColorStack.</span><p className="mt-2 text-[10px] tracking-wide text-cream/50">Website by Manuel Arellano</p></div>
         </div>
       </section>
     </>

@@ -1,7 +1,7 @@
 "use client";
 import MajorField from './MajorField';
 import {useEffect,useRef,useState} from 'react';
-import {MONTHS,STANDINGS,INTERESTS,CAREERS,ETHNICITIES,GENDERS,LGBTQ,INTERNATIONAL,EMPTY_PROFILE,CONSENT_TEXT} from '@/lib/profile-fields.mjs';
+import {MONTHS,STANDINGS,INTERESTS,CAREERS,ETHNICITIES,GENDERS,LGBTQ,INTERNATIONAL,EMPTY_PROFILE,CONSENT_TEXT,resumeBookStatus} from '@/lib/profile-fields.mjs';
 const inputClass='w-full bg-cream border border-navy/20 rounded-sm px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brass/50';
 const buttonClass='inline-flex justify-center items-center bg-navy text-cream px-5 py-3 rounded-sm font-bold uppercase tracking-widest text-xs whitespace-nowrap disabled:opacity-50';
 function Field({label,children}){return <label className="block"><span className="block text-sm font-semibold mb-2">{label}</span>{children}</label>;}
@@ -17,6 +17,14 @@ export default function MemberProfile({duesPaid=false}){
  if(loading)return <p className="mt-8" role="status">Loading your profile…</p>;
  if(!saved)return <div className="mt-8 border border-navy/20 p-5"><p role="alert">{error||'Unable to load your profile.'}</p><button className={buttonClass+' mt-4'} onClick={()=>setReload(x=>x+1)}>Try again</button></div>;
  return <form className="mt-10 border-t border-navy/15 pt-8" onSubmit={e=>{e.preventDefault();action('/api/profile',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(form)},'Profile saved. Your information will be here when you sign in again.');}}>
+ <section aria-labelledby="resume-book-guide" className="mb-8 border-b border-navy/15 pb-8">
+ <p className="text-brass uppercase text-xs tracking-widest font-bold">Your next opportunity</p>
+ <h2 id="resume-book-guide" className="font-serif text-3xl mt-2">Get included in the ColorStack UTA resume book.</h2>
+ <ol className="list-decimal pl-5 mt-5 space-y-2 text-sm"><li>Complete and save your member profile.</li><li><a className="underline" href="#membership-dues">Pay current-semester dues.</a></li><li><a className="underline" href="#resume-title">Upload your resume.</a></li><li>Opt in to partner sharing and save your profile.</li></ol>
+ <p className="text-sm text-navy/70 mt-4">Resume books are shared with eligible recruiting partners. Paying dues alone does not authorize resume sharing.</p>
+ <p role="status" className="mt-5 text-sm font-semibold">Resume book: {resumeBookStatus(saved,duesPaid)}</p>
+ {dirty&&<p className="text-xs text-navy/60 mt-2">Status reflects your saved information. Save your changes to update it.</p>}
+ </section>
  <div className="flex flex-wrap items-start justify-between gap-3"><div><p className="text-brass uppercase text-xs tracking-widest font-bold">Your member profile</p><h2 className="font-serif text-3xl mt-2">Make your next move.</h2></div><span className="text-xs text-navy/60 whitespace-nowrap">{dirty?'Unsaved changes':saved.exists?'Saved profile':'New profile'}</span></div>
  <p className="text-sm text-navy/70 mt-4 mb-7">Your verified sign-in email identifies your account. Saving a profile does not mark dues paid. Fields marked * are required.</p>
  <fieldset disabled={busy} className="space-y-8 disabled:opacity-70">
@@ -26,6 +34,7 @@ export default function MemberProfile({duesPaid=false}){
  {select('standing','Class year / academic standing *',STANDINGS,true)}{select('graduationMonth','Graduation month *',MONTHS,true)}
  <Field label="Graduation year *"><input required type="number" min={year-10} max={year+12} className={inputClass} value={form.graduationYear} onChange={e=>change('graduationYear',e.target.value)}/></Field>
  </div></section>
+ <section className="border-t border-navy/10 pt-7" aria-labelledby="discord-title"><h3 id="discord-title" className="font-serif text-xl mb-3">Connect on Discord</h3><Field label="Discord username (optional)"><input maxLength={100} autoCapitalize="none" spellCheck={false} autoComplete="off" aria-describedby="discord-help" placeholder="Your username, not your display name" className={inputClass} value={form.discord||''} onChange={e=>change('discord',e.target.value)}/></Field><p id="discord-help" className="text-sm text-navy/70 mt-3">Chapter officers use your username to help add you to member-only Discord spaces. Access is arranged by officers after membership verification; entering a username does not grant access automatically. Your Discord username is not included in resume books.</p></section>
  <section className="border-t border-navy/10 pt-7" aria-labelledby="career-title"><h3 id="career-title" className="font-serif text-xl mb-5">Career interests</h3><div className="grid sm:grid-cols-2 gap-5"><Field label="LinkedIn URL (optional)"><input type="url" placeholder="https://www.linkedin.com/in/…" maxLength={500} className={inputClass} value={form.linkedin} onChange={e=>change('linkedin',e.target.value)}/></Field><Field label="Portfolio URL (optional)"><input type="url" placeholder="https://…" maxLength={500} className={inputClass} value={form.portfolio} onChange={e=>change('portfolio',e.target.value)}/></Field></div>
  <fieldset className="mt-5"><legend className="text-sm font-semibold mb-3">Opportunity type (optional)</legend><div className="flex flex-wrap gap-x-6 gap-y-3">{INTERESTS.map(v=><label key={v} className="flex items-center gap-2 text-sm"><input type="checkbox" className="accent-[#16233F]" checked={form.interests.includes(v)} onChange={()=>multi('interests',v)}/>{v}</label>)}</div></fieldset>
  <fieldset className="mt-6"><legend className="text-sm font-semibold mb-3">Career interests (optional)</legend><div className="grid sm:grid-cols-2 gap-3">{CAREERS.map(v=><label key={v} className="flex items-center gap-2 text-sm"><input type="checkbox" className="accent-[#16233F]" checked={form.careerInterests.includes(v)} onChange={()=>multi('careerInterests',v)}/>{v}</label>)}</div></fieldset>
